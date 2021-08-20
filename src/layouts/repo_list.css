@@ -157,7 +157,7 @@ body {
 
 .git-repo-tile__star-image {
 	color: var(--star-accent);
-	vertical-align: middle;
+	vertical-align: text-top;
 }
 
 .git-repo-tile__last-updated-container {
