@@ -7,13 +7,13 @@ import {
 export default class GitHubStore implements IGitHubStore {
   private apiStore = new ApiStore();
 
-  async postCreateRepo<SuccessT>(params: PostCreateRepoParams): Promise<ApiResp<SuccessT>> {
-    const endpoint = `/orgs/${params.org}/repos`;
+  async postCreateRepo<SuccessT>({ org, ...params }: PostCreateRepoParams): Promise<ApiResp<SuccessT>> {
+    const endpoint = `/orgs/${org}/repos`;
     const sendParams = {
       method: HTTPMethod.GET,
       endpoint,
       headers: { accept: 'application/vnd.github.v3+json' },
-      data: params.bodyData,
+      data: params,
     };
     const apiResponse = await this.apiStore.request(sendParams);
     return {
@@ -21,13 +21,13 @@ export default class GitHubStore implements IGitHubStore {
     };
   }
 
-  async getRepoList<SuccessT>(params: GetRepoListParams): Promise<ApiResp<SuccessT>> {
-    const endpoint = `/orgs/${params.org}/repos`;
+  async getRepoList<SuccessT>({ org, ...params }: GetRepoListParams): Promise<ApiResp<SuccessT>> {
+    const endpoint = `/orgs/${org}/repos`;
     const sendParams = {
       method: HTTPMethod.GET,
       endpoint,
       headers: { accept: 'application/vnd.github.v3+json' },
-      data: params.queryData,
+      data: params,
     };
     const apiResponse = await this.apiStore.request(sendParams);
     return {

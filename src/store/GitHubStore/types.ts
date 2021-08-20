@@ -7,12 +7,23 @@
 
 export type PostCreateRepoParams = {
   org: string,
-  bodyData: object,
+  name: string,
+  description?: string,
+  homepage?: string,
+  private?: boolean,
+  has_issues?: boolean,
+  has_projects?: boolean,
+  has_wiki?: boolean,
+  is_template?: boolean,
 };
 
 export type GetRepoListParams = {
   org: string,
-  queryData: object,
+  type?: string,
+  sort?: string,
+  direction?: string,
+  per_page?: number,
+  page?: number,
 };
 
 export type ApiResp<SuccessT> = {

@@ -1,20 +1,25 @@
 // создание и использование GitHubStore
 import GitHubStore from '../store/GitHubStore';
-import { GetRepoListParams } from '../store/GitHubStore/types';
+import { GetRepoListParams, PostCreateRepoParams } from '../store/GitHubStore/types';
 
-const list = new GitHubStore();
-const orgName = 'yforage';
-
-const listParams = {
+const api = new GitHubStore();
+const org = 'yforage';
+const getReposParams = {
   type: 'all',
   sort: 'updated',
-  direction: 'desc',
   per_page: '20',
 };
 
 const reqParams: GetRepoListParams = {
-  org: orgName,
-  queryData: listParams,
+  org,
 };
 
-const repoList = list.getRepoList(reqParams);
+const addRepoParams: PostCreateRepoParams = {
+  org,
+  name: "kts-frontend",
+  description: "My new repo for project",
+  private: true,
+  has_projects: false,
+}
+const addNewRepoResult = api.postCreateRepo(addRepoParams);
+const repoList = api.getRepoList(reqParams);
