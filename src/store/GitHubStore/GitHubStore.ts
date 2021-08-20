@@ -10,7 +10,7 @@ export default class GitHubStore implements IGitHubStore {
   async postCreateRepo<SuccessT>({ org, ...params }: PostCreateRepoParams): Promise<ApiResp<SuccessT>> {
     const endpoint = `/orgs/${org}/repos`;
     const sendParams = {
-      method: HTTPMethod.GET,
+      method: HTTPMethod.POST,
       endpoint,
       headers: { accept: 'application/vnd.github.v3+json' },
       data: params,
