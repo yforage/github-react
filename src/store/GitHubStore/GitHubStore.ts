@@ -1,42 +1,37 @@
 import ApiStore from '../../shared/store/ApiStore';
-import { RequestParams } from '../../shared/store/ApiStore/types';
+import { RequestParams, HTTPMethod } from '../../shared/store/ApiStore/types';
 import {
-  ApiResp, GetRepoListParams, IGitHubStore,
+  GetRepoListParams, PostCreateRepoParams, IGitHubStore, ApiResp,
 } from './types';
 
 export default class GitHubStore implements IGitHubStore {
   private apiStore = new ApiStore();
-  /*
-  async postCreateRepo(params: PostCreateRepoParams): Promise<ApiResp<PostCreateRepoResp>> {
+
+  async postCreateRepo<SuccessT>(params: PostCreateRepoParams): Promise<ApiResp<SuccessT>> {
     const endpoint = `/orgs/${params.org}/repos`;
-    const sendParams: RequestParams<object> = {
-      method: 'POST',
+    const sendParams = {
+      method: HTTPMethod.GET,
       endpoint,
       headers: { accept: 'application/vnd.github.v3+json' },
       data: params.bodyData,
     };
-    const apiResponse = this.apiStore.request(sendParams);
-    const result: ApiResp<PostCreateRepoResp> = {
-      success: (await apiResponse).success,
-      data: (await apiResponse).data,
+    const apiResponse = await this.apiStore.request(sendParams);
+    return {
+      data: apiResponse.data,
     };
-    return result;
   }
-  */
 
-  async getRepoList(params: GetRepoListParams): Promise<ApiResp<GetRepoListResp>> {
+  async getRepoList<SuccessT>(params: GetRepoListParams): Promise<ApiResp<SuccessT>> {
     const endpoint = `/orgs/${params.org}/repos`;
-    const sendParams: RequestParams<object> = {
-      method: 'GET',
+    const sendParams = {
+      method: HTTPMethod.GET,
       endpoint,
       headers: { accept: 'application/vnd.github.v3+json' },
       data: params.queryData,
     };
-    const apiResponse = this.apiStore.request(sendParams);
-    const result: ApiResp<GetRepoListResp> = {
-      success: (await apiResponse).success,
-      data: (await apiResponse).data,
+    const apiResponse = await this.apiStore.request(sendParams);
+    return {
+      data: apiResponse.data,
     };
-    return result;
   }
 }
