@@ -6,7 +6,7 @@
  */
 
 export type PostCreateRepoParams = {
-  org: string,
+  orgName: string,
   name: string,
   description?: string,
   homepage?: string,
@@ -18,7 +18,7 @@ export type PostCreateRepoParams = {
 };
 
 export type GetRepoListParams = {
-  org: string,
+  orgName: string,
   type?: string,
   sort?: string,
   direction?: string,

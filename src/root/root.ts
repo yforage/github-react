@@ -3,23 +3,24 @@ import GitHubStore from '../store/GitHubStore';
 import { GetRepoListParams, PostCreateRepoParams } from '../store/GitHubStore/types';
 
 const api = new GitHubStore();
-const org = 'yforage';
+const orgName = 'yforage';
+
 const getReposParams = {
+  orgName,
   type: 'all',
   sort: 'updated',
-  per_page: '20',
+  per_page: 20,
 };
 
-const reqParams: GetRepoListParams = {
-  org,
-};
+const repoList = api.getRepoList(getReposParams);
+console.log(repoList);
 
-const addRepoParams: PostCreateRepoParams = {
-  org,
+const addRepoParams = {
+  orgName,
   name: "kts-frontend",
   description: "My new repo for project",
   private: true,
   has_projects: false,
 }
 const addNewRepoResult = api.postCreateRepo(addRepoParams);
-const repoList = api.getRepoList(reqParams);
+console.log(addNewRepoResult);
