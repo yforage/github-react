@@ -12,7 +12,6 @@ const getReposParams = {
 };
 
 const repoList = api.getRepoList(getReposParams);
-console.log(repoList);
 
 const addRepoParams = {
   orgName,
@@ -22,4 +21,3 @@ const addRepoParams = {
   has_projects: false,
 }
 const addNewRepoResult = api.postCreateRepo(addRepoParams);
-console.log(addNewRepoResult);
