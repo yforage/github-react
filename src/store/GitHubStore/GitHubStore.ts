@@ -7,7 +7,7 @@ import {
 export default class GitHubStore implements IGitHubStore {
   private apiStore = new ApiStore();
 
-  async postCreateRepo<SuccessT>({ orgName, ...params }: PostCreateRepoParams): Promise<ApiResp<SuccessT>> {
+  async postCreateRepo<RespT>({ orgName, ...params }: PostCreateRepoParams): Promise<ApiResp<RespT>> {
     const endpoint = `/orgs/${orgName}/repos`;
     const sendParams = {
       method: HTTPMethod.POST,
@@ -21,7 +21,7 @@ export default class GitHubStore implements IGitHubStore {
     };
   }
 
-  async getRepoList<SuccessT>({ orgName, ...params }: GetRepoListParams): Promise<ApiResp<SuccessT>> {
+  async getRepoList<RespT>({ orgName, ...params }: GetRepoListParams): Promise<ApiResp<RespT>> {
     const endpoint = `/orgs/${orgName}/repos`;
     const sendParams = {
       method: HTTPMethod.GET,

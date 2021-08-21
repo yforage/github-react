@@ -26,13 +26,13 @@ export type GetRepoListParams = {
   page?: number,
 };
 
-export type ApiResp<SuccessT> = {
-  data: SuccessT,
+export type ApiResp<RespT> = {
+  data: RespT,
 }
 
 export interface IGitHubStore {
-  getRepoList<SuccessT>(params: GetRepoListParams): Promise<ApiResp<SuccessT>>;
+  getRepoList<RespT>(params: GetRepoListParams): Promise<ApiResp<RespT>>;
 
   // Необязательный пункт, т.к. требует авторизации. Понадобится в будущем
-  postCreateRepo<SuccessT>(params: PostCreateRepoParams): Promise<ApiResp<SuccessT>>;
+  postCreateRepo<RespT>(params: PostCreateRepoParams): Promise<ApiResp<RespT>>;
 }
