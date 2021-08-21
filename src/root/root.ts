@@ -2,13 +2,12 @@
 import GitHubStore from '../store/GitHubStore';
 
 const api = new GitHubStore();
-const orgName = 'yforage';
+const orgName = 'ktsstudio';
 
 const getReposParams = {
   orgName,
-  type: 'all',
   sort: 'updated',
-  per_page: 20,
+  type: 'public',
 };
 
 api.getRepoList(getReposParams).then((result) => {
