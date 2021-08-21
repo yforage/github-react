@@ -11,13 +11,18 @@ const getReposParams = {
   per_page: 20,
 };
 
-const repoList = api.getRepoList(getReposParams);
+api.getRepoList(getReposParams).then((result) => {
+  console.log(result);
+});
 
 const addRepoParams = {
   orgName,
-  name: "kts-frontend",
-  description: "My new repo for project",
+  name: 'kts-frontend',
+  description: 'My new repo for project',
   private: true,
   has_projects: false,
-}
-const addNewRepoResult = api.postCreateRepo(addRepoParams);
+};
+
+api.postCreateRepo(addRepoParams).then((result) => {
+  console.log(result);
+});
