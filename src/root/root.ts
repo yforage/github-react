@@ -1,6 +1,5 @@
 // создание и использование GitHubStore
 import GitHubStore from '../store/GitHubStore';
-import { GetRepoListParams, PostCreateRepoParams } from '../store/GitHubStore/types';
 
 const api = new GitHubStore();
 const orgName = 'yforage';
