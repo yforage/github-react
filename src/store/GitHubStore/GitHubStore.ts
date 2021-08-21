@@ -5,7 +5,9 @@ import {
 } from './types';
 
 export default class GitHubStore implements IGitHubStore {
-  private apiStore = new ApiStore();
+  private readonly baseUrl = 'https://api.github.com';
+
+  private readonly apiStore = new ApiStore(this.baseUrl);
 
   async postCreateRepo<RespT>({ orgName, ...params }: PostCreateRepoParams): Promise<ApiResp<RespT>> {
     const endpoint = `/orgs/${orgName}/repos`;

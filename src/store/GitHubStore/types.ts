@@ -28,7 +28,7 @@ export type GetRepoListParams = {
 
 export type ApiResp<RespT> = {
   data: RespT,
-}
+};
 
 export interface IGitHubStore {
   getRepoList<RespT>(params: GetRepoListParams): Promise<ApiResp<RespT>>;

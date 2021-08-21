@@ -4,8 +4,8 @@ import { ApiResponse, IApiStore, RequestParams } from './types';
 export default class ApiStore implements IApiStore {
   baseUrl: string;
 
-  constructor() {
-    this.baseUrl = 'https://api.github.com';
+  constructor(url: string) {
+    this.baseUrl = url;
   }
 
   async request<SuccessT, ErrorT = any, ReqT = {}>(params: RequestParams<ReqT>): Promise<ApiResponse<SuccessT, ErrorT>> {
