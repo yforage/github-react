@@ -10,6 +10,7 @@
     "@types/node": "^12.20.19",
     "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
+    "qs": "^6.10.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -28,6 +29,9 @@
     ],
     "parserOptions": {
       "project": "./tsconfig.json"
+    },
+    "rules": {
+      "max-len": "off"
     }
   },
   "browserslist": {
@@ -49,7 +53,6 @@
     "eslint-plugin-import": "^2.24.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.24.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "qs": "^6.10.1"
+    "eslint-plugin-react-hooks": "^4.2.0"
   }
 }
