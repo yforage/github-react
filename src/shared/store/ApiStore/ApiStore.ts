@@ -16,9 +16,8 @@ export default class ApiStore implements IApiStore {
       url = `${this.baseUrl}${params.endpoint}`;
       body = JSON.stringify(params.data);
       if (params.method === 'GET') {
-        let query = qs.stringify(params.data);
-        if (query) query = `?${query}`;
-        url = `${url}${query}`;
+        const query = qs.stringify(params.data);
+        url = `${url}${query ? `?${query}` : query}`;
         body = undefined;
       }
       const response = await fetch(url, {
