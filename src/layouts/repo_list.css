@@ -8,6 +8,7 @@
 	--star-accent: #FF9432;
 	--shadow: rgba(182, 182, 182, 0.25);
 	--link-hover: #208FBF;
+	--border-radius: 6px;
 }
 
 body {
@@ -24,6 +25,7 @@ body {
 	display: grid;
 	row-gap: 16px;
 	justify-content: center;
+	grid-template-columns: 357px;
 }
 
 /*
@@ -33,17 +35,21 @@ body {
 .git-repo-search {
 	display: flex;
 	justify-content: space-between;
-	max-width: 357px;
+	width: 100%;
 	margin-bottom: 0;
 }
 
+.git-repo-search__input-container {
+	width: 80%;
+	display: flex;
+}
+
 .git-repo-search__input {
-	width: 295px;
-	height: 50px;
 	border: 1px solid var(--border-disabled-dark);
-	border-radius: 6px;
+	border-radius: var(--border-radius);
 	padding-left: 12px;
-	font-size: 14px;
+	flex-grow: 1;
+	font: inherit;
 }
 
 .git-repo-search__input:focus {
@@ -56,12 +62,16 @@ body {
 }
 
 .git-repo-search__button {
-	width: 50px;
-	height: 50px;
 	background-color: var(--main-accent);
-	border-radius: 6px;
+	border-radius: var(--border-radius);
 	border-style: none;
 	cursor: pointer;
+	padding: 16px;
+}
+
+.git-repo-search__icon {
+	width: 18px;
+	height: 18px;
 }
 
 .git-repo-search__button:hover {
@@ -83,13 +93,13 @@ body {
 
 .git-repo-tile {
 	display: flex;
-	border-radius: 6px;
+	border-radius: var(--border-radius);
 	border: 1px solid var(--border-disabled-dark);
 	align-items: center;
 	color: var(--text-hint);
 	box-sizing: border-box;
-	width: 357px;
-	height: 104px;
+	width: 100%;
+	padding: 12px;
 }
 
 .git-repo-tile:hover {
@@ -103,40 +113,35 @@ body {
 	align-items: center;
 	width: 80px;
 	height: 80px;
-	border-radius: 40px;
+	border-radius: 50%;
 	background-size: cover;
 	background-position: center;
 	background-color: var(--main-accent);
 	font-size: 40px;
-	font-weight: bold;
+	font-weight: 700;
 	color: var(--background-color);
 	text-align: center;
 	flex-shrink: 0;
-	margin: 12px;
+	margin-right: 12px;
 }
 
 .git-repo-tile__content {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 	flex-grow: 1;
 }
 
 .git-repo-tile__repo-name {
+	max-width: 100%;
 	color: var(--text-default);
-	font-weight: bold;
+	font-weight: 700;
 	font-size: 16px;
-	max-width: 241px;
-	margin: 4px 0;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 .git-repo-tile__org-name {
-	max-width: 241px;
-	margin: 0 0;
-	margin-bottom: 4px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+	max-width: 100%;
+	margin: 4px 0 0 0;
 }
 
 .git-repo-tile__org-name:hover {
@@ -144,15 +149,9 @@ body {
 }
 
 .git-repo-tile__info-container {
+	margin-top: 4px;
 	display: flex;
 	align-items: center;
-}
-
-.git-repo-tile__star-container {
-	max-width: 122px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 .git-repo-tile__star-image {
@@ -160,7 +159,6 @@ body {
 	vertical-align: text-top;
 }
 
-.git-repo-tile__last-updated-container {
+.git-repo-tile__date {
 	margin-left: 20px;
-	white-space: nowrap;
 }
