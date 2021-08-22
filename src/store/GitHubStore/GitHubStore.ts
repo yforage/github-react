@@ -11,7 +11,7 @@ export default class GitHubStore implements IGitHubStore {
 
   private readonly apiStore = new ApiStore(this.baseUrl);
 
-  async postCreateRepo({ orgName, ...params }: PostCreateRepoParams): Promise<ApiResp<{}>> { // этот метод не должен быть дженериком
+  async postCreateRepo({ orgName, ...params }: PostCreateRepoParams): Promise<ApiResp<{}>> {
     const sendParams = {
       method: HTTPMethod.POST,
       endpoint: orgReposEndpoint(orgName),
