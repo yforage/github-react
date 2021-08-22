@@ -34,5 +34,5 @@ export interface IGitHubStore {
   getRepoList<RespT>(params: GetRepoListParams): Promise<ApiResp<RespT>>;
 
   // Необязательный пункт, т.к. требует авторизации. Понадобится в будущем
-  postCreateRepo<RespT>(params: PostCreateRepoParams): Promise<ApiResp<RespT>>;
+  postCreateRepo(params: PostCreateRepoParams): Promise<ApiResp<{}>>;
 }
