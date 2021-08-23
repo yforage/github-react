@@ -126,32 +126,27 @@ body {
 }
 
 .git-repo-tile__content {
-	text-overflow: ellipsis;
-	white-space: nowrap;
 	overflow: hidden;
 	flex-grow: 1;
 }
 
 .git-repo-tile__repo-name {
-	max-width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin: 0 0 4px 0;
 	color: var(--text-default);
 	font-weight: 700;
 	font-size: 16px;
-}
-
-.git-repo-tile__org-name {
-	max-width: 100%;
-	margin: 4px 0 0 0;
 }
 
 .git-repo-tile__org-name:hover {
 	color: var(--link-hover);
 }
 
-.git-repo-tile__info-container {
+.git-repo-tile__info {
 	margin-top: 4px;
 	display: flex;
-	align-items: center;
 }
 
 .git-repo-tile__star-image {
