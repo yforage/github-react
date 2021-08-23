@@ -36,7 +36,7 @@ export default class ApiStore implements IApiStore {
       return {
         success: false,
         data: e,
-        status: e.status,
+        status: e.message,
       };
     }
   }
