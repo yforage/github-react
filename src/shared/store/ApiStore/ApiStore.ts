@@ -1,5 +1,7 @@
 import * as qs from 'qs';
-import { ApiResponse, IApiStore, RequestParams } from './types';
+import {
+  ApiResponse, HTTPMethod, IApiStore, RequestParams,
+} from './types';
 
 export default class ApiStore implements IApiStore {
   baseUrl: string;
@@ -10,15 +12,14 @@ export default class ApiStore implements IApiStore {
 
   async request<SuccessT, ErrorT = any, ReqT = {}>(params: RequestParams<ReqT>): Promise<ApiResponse<SuccessT, ErrorT>> {
     try {
-      let url: string;
+      let url: string = `${this.baseUrl}${params.endpoint}`;
       let body: string | undefined;
 
-      url = `${this.baseUrl}${params.endpoint}`;
-      body = JSON.stringify(params.data);
-      if (params.method === 'GET') {
+      if (params.method === HTTPMethod.GET) {
         const query = qs.stringify(params.data);
-        url = `${url}${query ? `?${query}` : query}`;
-        body = undefined;
+        url = `${url}${query ? `?${query}` : ''}`;
+      } else {
+        body = JSON.stringify(params.data);
       }
       const response = await fetch(url, {
         method: params.method,
@@ -35,7 +36,7 @@ export default class ApiStore implements IApiStore {
       return {
         success: false,
         data: e,
-        status: 500,
+        status: e.status,
       };
     }
   }
