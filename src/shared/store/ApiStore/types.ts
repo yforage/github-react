@@ -20,7 +20,8 @@ export type RequestParams<ReqT> = {
 
 // Перечисление статусов ответа
 enum StatusHTTP {
-  SUCCESS = 200,
+  OK = 200,
+  CREATED = 201,
   AUTH_REQUIRED = 401,
 }
 
