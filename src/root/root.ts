@@ -12,7 +12,7 @@ const getReposParams = {
 
 api.getRepoList(getReposParams).then((result) => {
   if (result.success) {
-    console.log(result.data.map((repo) => repo.stargazers_count));
+    console.log(result.data.map((repo) => repo.name));
   }
 });
 
@@ -28,6 +28,6 @@ api.postCreateRepo(addRepoParams).then((result) => {
   if (result.success) {
     console.log(result.data.map((repo) => repo.name));
   } else {
-    console.log(result.data);
+    console.log(result.status);
   }
 });
