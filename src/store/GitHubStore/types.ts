@@ -5,6 +5,8 @@
  * Выберите любой запрос из публичного API GitHub.
  */
 
+import { ApiResponse } from '../../shared/store/ApiStore/types';
+
 export type PostCreateRepoParams = {
   orgName: string,
   name: string,
@@ -26,13 +28,24 @@ export type GetRepoListParams = {
   page?: number,
 };
 
-export type ApiResp<RespT> = {
-  data: RespT,
+type RepoOwner = {
+  id: number,
+  login: string,
+  avatar_url: string,
+  url: string,
+};
+
+export type RepoItem = {
+  id: number,
+  name: string,
+  url: string,
+  stargazers_count: number,
+  owner: RepoOwner,
 };
 
 export interface IGitHubStore {
-  getRepoList<RespT>(params: GetRepoListParams): Promise<ApiResp<RespT>>;
+  getRepoList(params: GetRepoListParams): Promise<ApiResponse<RepoItem[], {}>>;
 
   // Необязательный пункт, т.к. требует авторизации. Понадобится в будущем
-  postCreateRepo(params: PostCreateRepoParams): Promise<ApiResp<{}>>;
+  postCreateRepo(params: PostCreateRepoParams): Promise<ApiResponse<RepoItem[], {}>>;
 }

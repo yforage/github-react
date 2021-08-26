@@ -1,7 +1,7 @@
 import ApiStore from '../../shared/store/ApiStore';
-import { HTTPMethod } from '../../shared/store/ApiStore/types';
+import { ApiResponse, HTTPMethod } from '../../shared/store/ApiStore/types';
 import {
-  GetRepoListParams, PostCreateRepoParams, IGitHubStore, ApiResp,
+  GetRepoListParams, PostCreateRepoParams, IGitHubStore, RepoItem,
 } from './types';
 
 const orgReposEndpoint = (org: string) => `/orgs/${org}/repos`;
@@ -11,7 +11,7 @@ export default class GitHubStore implements IGitHubStore {
 
   private readonly apiStore = new ApiStore(this.baseUrl);
 
-  async postCreateRepo({ orgName, ...params }: PostCreateRepoParams): Promise<ApiResp<{}>> {
+  async postCreateRepo({ orgName, ...params }: PostCreateRepoParams): Promise<ApiResponse<RepoItem[], {}>> {
     const sendParams = {
       method: HTTPMethod.POST,
       endpoint: orgReposEndpoint(orgName),
@@ -21,7 +21,7 @@ export default class GitHubStore implements IGitHubStore {
     return this.apiStore.request(sendParams);
   }
 
-  async getRepoList<RespT>({ orgName, ...params }: GetRepoListParams): Promise<ApiResp<RespT>> {
+  async getRepoList({ orgName, ...params }: GetRepoListParams): Promise<ApiResponse<RepoItem[], {}>> {
     const sendParams = {
       method: HTTPMethod.GET,
       endpoint: orgReposEndpoint(orgName),
