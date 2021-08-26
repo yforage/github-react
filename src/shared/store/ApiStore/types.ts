@@ -19,10 +19,11 @@ export type RequestParams<ReqT> = {
 };
 
 // Перечисление статусов ответа
-enum StatusHTTP {
+export enum StatusHTTP {
   OK = 200,
   CREATED = 201,
   AUTH_REQUIRED = 401,
+  UNEXPECTED_ERROR = 'UNEXPECTED_ERROR',
 }
 
 // Ответ API
