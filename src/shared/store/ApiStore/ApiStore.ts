@@ -1,6 +1,6 @@
 import * as qs from 'qs';
 import {
-  ApiResponse, HTTPMethod, IApiStore, RequestParams,
+  ApiResponse, HTTPMethod, IApiStore, RequestParams, StatusHTTP,
 } from './types';
 
 export default class ApiStore implements IApiStore {
@@ -27,8 +27,15 @@ export default class ApiStore implements IApiStore {
         body,
       });
       const data = await response.json();
+      if (response.ok) {
+        return {
+          success: true,
+          data,
+          status: response.status,
+        };
+      }
       return {
-        success: true,
+        success: false,
         data,
         status: response.status,
       };
@@ -36,7 +43,7 @@ export default class ApiStore implements IApiStore {
       return {
         success: false,
         data: e,
-        status: e.message,
+        status: StatusHTTP.UNEXPECTED_ERROR,
       };
     }
   }
