@@ -1,13 +1,13 @@
 // создание и использование GitHubStore
-import GitHubStore from '../store/GitHubStore';
+import GitHubStore from "../store/GitHubStore";
 
 const api = new GitHubStore();
-const orgName = 'ktsstudio';
+const orgName = "ktsstudio";
 
 const getReposParams = {
   orgName,
-  sort: 'updated',
-  type: 'public',
+  sort: "updated",
+  type: "public",
 };
 
 api.getRepoList(getReposParams).then((result) => {
@@ -18,8 +18,8 @@ api.getRepoList(getReposParams).then((result) => {
 
 const addRepoParams = {
   orgName,
-  name: 'kts-frontend',
-  description: 'My new repo for project',
+  name: "kts-frontend",
+  description: "My new repo for project",
   private: true,
   has_projects: false,
 };

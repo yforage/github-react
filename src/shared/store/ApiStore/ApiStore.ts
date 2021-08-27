@@ -1,7 +1,12 @@
-import * as qs from 'qs';
+import * as qs from "qs";
+
 import {
-  ApiResponse, HTTPMethod, IApiStore, RequestParams, StatusHTTP,
-} from './types';
+  ApiResponse,
+  HTTPMethod,
+  IApiStore,
+  RequestParams,
+  StatusHTTP,
+} from "./types";
 
 export default class ApiStore implements IApiStore {
   baseUrl: string;
@@ -10,14 +15,16 @@ export default class ApiStore implements IApiStore {
     this.baseUrl = url;
   }
 
-  async request<SuccessT, ErrorT = any, ReqT = {}>(params: RequestParams<ReqT>): Promise<ApiResponse<SuccessT, ErrorT>> {
+  async request<SuccessT, ErrorT = any, ReqT = {}>(
+    params: RequestParams<ReqT>
+  ): Promise<ApiResponse<SuccessT, ErrorT>> {
     try {
       let url: string = `${this.baseUrl}${params.endpoint}`;
       let body: string | undefined;
 
       if (params.method === HTTPMethod.GET) {
         const query = qs.stringify(params.data);
-        url = `${url}${query ? `?${query}` : ''}`;
+        url = `${url}${query ? `?${query}` : ""}`;
       } else {
         body = JSON.stringify(params.data);
       }

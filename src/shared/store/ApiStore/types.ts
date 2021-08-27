@@ -1,9 +1,9 @@
 export enum HTTPMethod {
-  GET = 'GET',
-  POST = 'POST',
-  PATCH = 'PATCH',
-  DELETE = 'DELETE',
-  PUT = 'PUT',
+  GET = "GET",
+  POST = "POST",
+  PATCH = "PATCH",
+  DELETE = "DELETE",
+  PUT = "PUT",
 }
 
 export type RequestParams<ReqT> = {
@@ -11,10 +11,10 @@ export type RequestParams<ReqT> = {
   endpoint: string;
   headers: Record<string, string>;
   /**
-  * Объект с данными запроса.
-  * - Для GET-запроса данные превращаются в query-строку и добавляются в endpoint
-  * Для POST-запроса данные преобразуются к формату JSON и добавляются в тело запроса
-  * */
+   * Объект с данными запроса.
+   * - Для GET-запроса данные превращаются в query-строку и добавляются в endpoint
+   * Для POST-запроса данные преобразуются к формату JSON и добавляются в тело запроса
+   * */
   data: ReqT;
 };
 
@@ -23,17 +23,17 @@ export enum StatusHTTP {
   OK = 200,
   CREATED = 201,
   AUTH_REQUIRED = 401,
-  UNEXPECTED_ERROR = 'UNEXPECTED_ERROR',
+  UNEXPECTED_ERROR = "UNEXPECTED_ERROR",
 }
 
 // Ответ API
 export type ApiResponse<SuccessT, ErrorT> =
-    | {
+  | {
       success: true;
       data: SuccessT;
       status: StatusHTTP;
     }
-    | {
+  | {
       success: false;
       data: ErrorT;
       status: StatusHTTP;
@@ -44,5 +44,7 @@ export interface IApiStore {
   readonly baseUrl: string;
 
   // Метод, с помощью которого делается запрос. TODO: реализовать в классе ApiStore
-  request<SuccessT, ErrorT = any, ReqT = {}>(params: RequestParams<ReqT>): Promise<ApiResponse<SuccessT, ErrorT>>
+  request<SuccessT, ErrorT = any, ReqT = {}>(
+    params: RequestParams<ReqT>
+  ): Promise<ApiResponse<SuccessT, ErrorT>>;
 }
