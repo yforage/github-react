@@ -43,18 +43,21 @@ const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({
       visible={selectedRepo ? true : false}
       closable={true}
     >
-      {branchesList?.map((branch) => (
-        <div key={branch.name} className="git-repo-branch">
-          <a
-            className="git-repo-branch__link"
-            href={`https://github.com/${selectedRepo?.owner.login}/${selectedRepo?.name}/tree/${branch.name}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {branch.name}
-          </a>
-        </div>
-      ))}
+      {branchesList?.map((branch) => {
+        const href = `https://github.com/${selectedRepo?.owner.login}/${selectedRepo?.name}/tree/${branch.name}`;
+        return (
+          <div key={branch.name} className="git-repo-branch">
+            <a
+              className="git-repo-branch__link"
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {branch.name}
+            </a>
+          </div>
+        );
+      })}
     </Drawer>
   );
 };
