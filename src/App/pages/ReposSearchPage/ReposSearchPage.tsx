@@ -21,7 +21,7 @@ const ReposSearchPage = () => {
   const handleReposList = (repos: RepoItem[] | null) => updateReposList(repos);
   const selectRepo = (repo: RepoItem | null) => setClickedRepo(repo);
 
-  const searchOrganization = (orgName: string | undefined) => {
+  const searchOrganization = (orgName: string) => {
     if (!orgName) return;
     handleLoading();
     const api = new GitHubStore();
