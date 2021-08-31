@@ -5,13 +5,17 @@ type AvatarProps = {
   letter: string;
 };
 
-const Avatar: React.FC<AvatarProps> = ({ src, letter }) => (
-  <div
-    className="git-repo-tile__avatar"
-    style={{ backgroundImage: `url(${src})` }}
-  >
-    <span className="git-repo-tile__avatar-first-letter">{!src && letter}</span>
-  </div>
-);
+const Avatar: React.FC<AvatarProps> = ({ src, letter }) => {
+  return (
+    <div
+      className="git-repo-tile__avatar"
+      style={{ backgroundImage: `url(${src})` }}
+    >
+      <span className="git-repo-tile__avatar-first-letter">
+        {!src && letter}
+      </span>
+    </div>
+  );
+};
 
-export default Avatar;
+export default React.memo(Avatar);

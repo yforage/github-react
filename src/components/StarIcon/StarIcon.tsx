@@ -20,4 +20,4 @@ const StarIcon: React.FC = () => {
   );
 };
 
-export default StarIcon;
+export default React.memo(StarIcon);
