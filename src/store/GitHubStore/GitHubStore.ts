@@ -36,10 +36,7 @@ export default class GitHubStore implements IGitHubStore {
     const sendParams = {
       method: HTTPMethod.GET,
       endpoint: orgReposEndpoint(orgName),
-      headers: {
-        accept: "application/vnd.github.v3+json",
-        authorization: "token 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",
-      },
+      headers: { accept: "application/vnd.github.v3+json" },
       data: params,
     };
     return this.apiStore.request(sendParams);
@@ -53,10 +50,7 @@ export default class GitHubStore implements IGitHubStore {
     const sendParams = {
       method: HTTPMethod.GET,
       endpoint: `/repos/${owner}/${repo}/branches`,
-      headers: {
-        accept: "application/vnd.github.v3+json",
-        authorization: "token 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",
-      },
+      headers: { accept: "application/vnd.github.v3+json" },
       data: params,
     };
     return this.apiStore.request(sendParams);
