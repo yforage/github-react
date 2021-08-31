@@ -1,0 +1,56 @@
+<html>
+<head>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="repo_list.css">
+</head>
+<body>
+	<div class="git-repo-list">
+		<form class="git-repo-search">
+			<div class="git-repo-search__input-container">
+				<input type="text" name="repo_name" placeholder="Введите название организации" class="git-repo-search__input">
+			</div>
+			<button type="submit" name="search_repo_button" class="git-repo-search__button">
+				<img class="git-repo-search__icon" src="search_button.svg">
+			</button>
+		</form>
+		<div class="git-repo-tile">
+			<div class="git-repo-tile__avatar">
+				<span class="git-repo-tile__avatar-first-letter">K</span>
+			</div>
+			<div class="git-repo-tile__content">
+				<p class="git-repo-tile__repo-name">kts-school-frontend-very-long-name</p>
+				<span class="git-repo-tile__org-name">ktsstudio</span>
+				<div class="git-repo-tile__info">
+					<div class="git-repo-tile__stars">
+						<img class="git-repo-tile__star-image" src="star.svg">
+						<span class="git-repo-tile__star-number">123</span>
+					</div>
+					<div class="git-repo-tile__date">
+						<span class="git-repo-tile__last-updated-date">Updated 21 Jul</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="git-repo-tile">
+			<div class="git-repo-tile__avatar" style="background-image: url(../../public/userAvatar.jpg);">
+				<span class="git-repo-tile__avatar-first-letter"></span>
+			</div>
+			<div class="git-repo-tile__content">
+				<p class="git-repo-tile__repo-name">kts-school-frontend</p>
+				<span class="git-repo-tile__org-name">ktsstudio</span>
+				<div class="git-repo-tile__info">
+					<div class="git-repo-tile__stars">
+						<img class="git-repo-tile__star-image" src="star.svg">
+						<span class="git-repo-tile__star-number">123</span>
+					</div>
+					<div class="git-repo-tile__date">
+						<span class="git-repo-tile__last-updated-date">Updated 21 Jul</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
