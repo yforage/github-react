@@ -12,7 +12,7 @@ import GitHubStore from "../../../store/GitHubStore/GitHubStore";
 
 const ReposSearchPage = () => {
   const [inputValue, setInputValue] = React.useState<string>("");
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [reposList, updateReposList] = React.useState<null | RepoItem[]>(null);
   const [clickedRepo, setClickedRepo] = React.useState<null | RepoItem>(null);
 
