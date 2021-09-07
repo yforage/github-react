@@ -4,59 +4,44 @@ import { Drawer } from "antd";
 import { BranchesItem, RepoItem } from "src/store/GitHubStore/types";
 
 import GitHubStore from "../../store/GitHubStore";
+import BranchItem from "./components";
 
 type RepoBranchesDrawerProps = {
   selectedRepo: RepoItem | null;
-  onClose: () => void;
+  onClose: (repoId: number) => void;
 };
 
 const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({
   selectedRepo,
   onClose,
 }) => {
-  const [branchesList, setBranchesList] = React.useState<BranchesItem[] | null>(
-    null
-  );
-  const handleChange = (list: BranchesItem[] | null) => setBranchesList(list);
+  const [branchesList, setBranchesList] = React.useState<BranchesItem[]>([]);
+  const handleChange = (list: BranchesItem[]) => setBranchesList(list);
   React.useEffect(() => {
     if (!selectedRepo) return;
     const api = new GitHubStore();
-    api
-      .getRepoBranches({
+    (async () => {
+      const response = await api.getRepoBranches({
         owner: selectedRepo.owner.login,
         repo: selectedRepo.name,
-      })
-      .then((response) => {
-        if (response.success) {
-          handleChange(response.data);
-        }
       });
+      handleChange(response.success ? response.data : []);
+    })();
   }, [selectedRepo]);
   return (
     <Drawer
       title="Branches"
       placement="right"
       onClose={() => {
-        handleChange(null);
-        onClose();
+        handleChange([]);
+        onClose(0);
       }}
       visible={selectedRepo ? true : false}
       closable={true}
     >
-      {branchesList?.map((branch) => {
+      {branchesList.map((branch) => {
         const href = `https://github.com/${selectedRepo?.owner.login}/${selectedRepo?.name}/tree/${branch.name}`;
-        return (
-          <div key={branch.name} className="git-repo-branch">
-            <a
-              className="git-repo-branch__link"
-              href={href}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {branch.name}
-            </a>
-          </div>
-        );
+        return <BranchItem key={branch.name} name={branch.name} href={href} />;
       })}
     </Drawer>
   );
