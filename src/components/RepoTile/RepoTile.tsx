@@ -7,14 +7,14 @@ import { RepoItem } from "../../store/GitHubStore/types";
 
 type RepoTileProps = {
   item: RepoItem;
-  onClick?: () => void;
+  onClick: (repoId: number) => void;
 };
 
 const RepoTile: React.FC<RepoTileProps> = ({ item, onClick }) => {
   const updatedDate = new Date(item.updated_at);
   const numberFormat = Intl.NumberFormat("en", { notation: "compact" });
   return (
-    <div className="git-repo-tile" onClick={onClick}>
+    <div className="git-repo-tile" onClick={() => onClick(item.id)}>
       <Avatar letter={item.name[0]} src={item.owner.avatar_url} />
       <div className="git-repo-tile__content">
         <p className="git-repo-tile__repo-name">{item.name}</p>
