@@ -13,33 +13,28 @@ import GitHubStore from "../../../store/GitHubStore/GitHubStore";
 const ReposSearchPage = () => {
   const [inputValue, setInputValue] = React.useState<string>("");
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [reposList, updateReposList] = React.useState<null | RepoItem[]>(null);
-  const [clickedRepo, setClickedRepo] = React.useState<null | RepoItem>(null);
+  const [reposList, updateReposList] = React.useState<RepoItem[]>([]);
+  const [clickedRepoId, setClickedRepoId] = React.useState<number>(0);
 
   const handleInputChange = (value: string) => setInputValue(value);
-  const handleLoading = () => setIsLoading((prev) => (prev ? false : true));
-  const handleReposList = (repos: RepoItem[] | null) => updateReposList(repos);
-  const selectRepo = (repo: RepoItem | null) => setClickedRepo(repo);
+  const handleLoading = () => setIsLoading((prev) => !prev);
+  const handleReposList = (repos: RepoItem[]) => updateReposList(repos);
+  const selectRepo = (repoId: number) => setClickedRepoId(repoId);
 
-  const searchOrganization = (orgName: string) => {
+  const searchOrganization = async (orgName: string) => {
     if (!orgName) return;
     handleLoading();
     const api = new GitHubStore();
-    api.getRepoList({ orgName }).then((response) => {
-      if (response.success) {
-        handleReposList(response.data);
-      } else {
-        handleReposList(null);
-      }
-      handleLoading();
-    });
+    const response = await api.getRepoList({ orgName });
+    handleReposList(response.success ? response.data : []);
+    handleLoading();
   };
   return (
     <div className="git-repo-list">
       <div className="git-repo-search">
         <Input
           value={inputValue}
-          placeHolder="Введите название организации"
+          placeholder="Введите название организации"
           onChange={(e) => handleInputChange(e.target.value)}
         />
         <Button
@@ -49,18 +44,16 @@ const ReposSearchPage = () => {
           <SearchIcon />
         </Button>
       </div>
-      {reposList?.map((repoItem) => {
+      {reposList.map((repoItem) => {
         return (
-          <RepoTile
-            key={repoItem.id}
-            item={repoItem}
-            onClick={() => selectRepo(repoItem)}
-          />
+          <RepoTile key={repoItem.id} item={repoItem} onClick={selectRepo} />
         );
       })}
       <RepoBranchesDrawer
-        selectedRepo={clickedRepo}
-        onClose={() => selectRepo(null)}
+        selectedRepo={
+          reposList[reposList.findIndex((item) => item.id === clickedRepoId)]
+        }
+        onClose={selectRepo}
       />
     </div>
   );
