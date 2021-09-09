@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import Button from "@components/Button";
 import Input from "@components/Input";
@@ -16,7 +16,9 @@ const ReposSearchPage = () => {
   const [reposList, updateReposList] = React.useState<RepoItem[]>([]);
   const [clickedRepoId, setClickedRepoId] = React.useState<number>(0);
 
-  const handleInputChange = (value: string) => setInputValue(value);
+  const handleInputChange = useCallback((e) => {
+    setInputValue(e.target.value);
+  }, []);
   const handleLoading = () => setIsLoading((prev) => !prev);
   const handleReposList = (repos: RepoItem[]) => updateReposList(repos);
   const selectRepo = (repoId: number) => setClickedRepoId(repoId);
@@ -35,7 +37,7 @@ const ReposSearchPage = () => {
         <Input
           value={inputValue}
           placeholder="Введите название организации"
-          onChange={(e) => handleInputChange(e.target.value)}
+          onChange={handleInputChange}
         />
         <Button
           onClick={() => searchOrganization(inputValue)}
