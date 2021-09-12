@@ -1,0 +1,10 @@
+@import "@styles/variables.scss";
+
+.branch__link {
+  color: $text-hint;
+  display: block;
+}
+
+.branch__link:hover {
+  color: $link-hover;
+}
