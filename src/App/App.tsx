@@ -1,17 +1,22 @@
-import "./App.css";
 import { Layout } from "antd";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 
-import ReposSearchPage from "./pages/ReposSearchPage";
+import { ReposSearchPage } from "./pages/ReposSearchPage";
 
 const { Content } = Layout;
 
 const App = () => {
   return (
-    <Layout className="git-repo-layout">
-      <Content>
-        <ReposSearchPage />
-      </Content>
-    </Layout>
+    <BrowserRouter>
+      <Layout style={{ minHeight: "100vh" }}>
+        <Content>
+          <Switch>
+            <Route path="/repos" component={ReposSearchPage} />
+            <Redirect to="/repos" />
+          </Switch>
+        </Content>
+      </Layout>
+    </BrowserRouter>
   );
 };
 
