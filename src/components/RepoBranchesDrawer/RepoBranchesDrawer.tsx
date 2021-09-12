@@ -1,48 +1,63 @@
-import React from "react";
+import { useEffect, useState } from "react";
 
+import LoadSpin from "@components/LoadSpin";
 import { Drawer } from "antd";
-import { BranchesItem, RepoItem } from "src/store/GitHubStore/types";
+import { useParams, useHistory } from "react-router-dom";
+import { RepoInfoItem } from "src/store/GitHubStore/types";
 
 import GitHubStore from "../../store/GitHubStore";
-import BranchItem from "./components";
+import Branches from "./components/Branches";
+import RepoInfo from "./components/RepoInfo";
 
-type RepoBranchesDrawerProps = {
-  selectedRepo: RepoItem | null;
-  onClose: (repoId: number) => void;
+type ParamsProps = {
+  owner: string;
+  name: string;
 };
 
-const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({
-  selectedRepo,
-  onClose,
-}) => {
-  const [branchesList, setBranchesList] = React.useState<BranchesItem[]>([]);
-  const handleChange = (list: BranchesItem[]) => setBranchesList(list);
-  React.useEffect(() => {
-    if (!selectedRepo) return;
+const RepoBranchesDrawer: React.FC = () => {
+  const { owner, name } = useParams<ParamsProps>();
+
+  const [isOpen, setIsOpen] = useState(false);
+  const handleOpen = () => setIsOpen((prev) => !prev);
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const handleLoading = () => setIsLoading(false);
+
+  const [repoInfo, setRepoInfo] = useState<RepoInfoItem | null>(null);
+  const handleRepoInfo = (repo: RepoInfoItem | null) => setRepoInfo(repo);
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!(owner && name)) return;
     const api = new GitHubStore();
     (async () => {
-      const response = await api.getRepoBranches({
-        owner: selectedRepo.owner.login,
-        repo: selectedRepo.name,
+      const response = await api.getRepoInfo({
+        owner,
+        name,
       });
-      handleChange(response.success ? response.data : []);
+      handleRepoInfo(response.success ? response.data : null);
+      handleLoading();
     })();
-  }, [selectedRepo]);
+    handleOpen();
+  }, [owner, name]);
   return (
     <Drawer
-      title="Branches"
+      title="More about"
       placement="right"
       onClose={() => {
-        handleChange([]);
-        onClose(0);
+        handleOpen();
+        setTimeout(() => {
+          handleRepoInfo(null);
+          history.push("/repos");
+        }, 100);
       }}
-      visible={selectedRepo ? true : false}
+      visible={isOpen}
       closable={true}
     >
-      {branchesList.map((branch) => {
-        const href = `https://github.com/${selectedRepo?.owner.login}/${selectedRepo?.name}/tree/${branch.name}`;
-        return <BranchItem key={branch.name} name={branch.name} href={href} />;
-      })}
+      {isLoading && <LoadSpin />}
+      {!isLoading && <RepoInfo repo={repoInfo} />}
+      {!isLoading && <Branches repo={repoInfo} />}
     </Drawer>
   );
 };
