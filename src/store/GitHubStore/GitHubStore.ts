@@ -7,6 +7,8 @@ import {
   RepoItem,
   GetRepoBranchesParams,
   BranchesItem,
+  RepoInfoItem,
+  GetRepoInfoParams,
 } from "./types";
 
 const orgReposEndpoint = (org: string) => `/orgs/${org}/repos`;
@@ -36,7 +38,9 @@ export default class GitHubStore implements IGitHubStore {
     const sendParams = {
       method: HTTPMethod.GET,
       endpoint: orgReposEndpoint(orgName),
-      headers: { accept: "application/vnd.github.v3+json" },
+      headers: {
+        accept: "application/vnd.github.v3+json",
+      },
       data: params,
     };
     return this.apiStore.request(sendParams);
@@ -50,8 +54,25 @@ export default class GitHubStore implements IGitHubStore {
     const sendParams = {
       method: HTTPMethod.GET,
       endpoint: `/repos/${owner}/${repo}/branches`,
-      headers: { accept: "application/vnd.github.v3+json" },
+      headers: {
+        accept: "application/vnd.github.v3+json",
+      },
       data: params,
+    };
+    return this.apiStore.request(sendParams);
+  }
+
+  async getRepoInfo({
+    owner,
+    name,
+  }: GetRepoInfoParams): Promise<ApiResponse<RepoInfoItem, {}>> {
+    const sendParams = {
+      method: HTTPMethod.GET,
+      endpoint: `/repos/${owner}/${name}`,
+      headers: {
+        accept: "application/vnd.github.v3+json",
+      },
+      data: "",
     };
     return this.apiStore.request(sendParams);
   }
