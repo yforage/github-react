@@ -1,1 +1,1 @@
-export { default } from "./ReposSearchPage";
+export { useReposContext, ReposSearchPage } from "./ReposSearchPage";
