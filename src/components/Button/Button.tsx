@@ -1,5 +1,7 @@
 import React from "react";
 
+import styles from "../../App/pages/ReposSearchPage/ReposSearchPage.module.scss";
+
 type ButtonProps = {
   children: React.ReactNode;
   onClick: () => void;
@@ -13,7 +15,7 @@ const Button: React.FC<ButtonProps> = ({ onClick, children, disabled }) => {
       disabled={disabled}
       type="submit"
       name="search_repo_button"
-      className="git-repo-search__button"
+      className={styles.repoSearch__button}
     >
       {children}
     </button>

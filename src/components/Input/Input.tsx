@@ -1,5 +1,7 @@
 import React from "react";
 
+import styles from "../../App/pages/ReposSearchPage/ReposSearchPage.module.scss";
+
 type InputProps = {
   value: string;
   placeholder: string;
@@ -8,12 +10,12 @@ type InputProps = {
 
 const Input: React.FC<InputProps> = ({ value, placeholder, onChange }) => {
   return (
-    <div className="git-repo-search__input-container">
+    <div className={styles.repoSearch__input}>
       <input
         type="text"
         name="repo_name"
         placeholder={placeholder}
-        className="git-repo-search__input"
+        className={styles.repoSearch__inputField}
         onChange={onChange}
         value={value}
       />
