@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
 import LoadSpin from "@components/LoadSpin";
+import GitHubStore from "@store/GitHubStore";
 import { Drawer } from "antd";
 import { useParams, useHistory } from "react-router-dom";
 import { RepoInfoItem } from "src/store/GitHubStore/types";
 
-import GitHubStore from "../../store/GitHubStore";
 import Branches from "./components/Branches";
 import RepoInfo from "./components/RepoInfo";
 
@@ -49,15 +49,19 @@ const RepoBranchesDrawer: React.FC = () => {
         handleOpen();
         setTimeout(() => {
           handleRepoInfo(null);
-          history.push("/repos");
+          history.goBack();
         }, 100);
       }}
       visible={isOpen}
       closable={true}
     >
       {isLoading && <LoadSpin />}
-      {!isLoading && <RepoInfo repo={repoInfo} />}
-      {!isLoading && <Branches repo={repoInfo} />}
+      {!isLoading && (
+        <>
+          <RepoInfo repo={repoInfo} />
+          <Branches repo={repoInfo} />
+        </>
+      )}
     </Drawer>
   );
 };
