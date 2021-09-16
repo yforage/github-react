@@ -55,12 +55,32 @@ export type BranchesItem = {
   name: string;
 };
 
+export type RepoInfoItem = {
+  name: string;
+  owner: RepoOwner;
+  full_name: string;
+  description: string;
+  language: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type GetRepoInfoParams = {
+  owner: string;
+  name: string;
+};
+
 export interface IGitHubStore {
   getRepoList(params: GetRepoListParams): Promise<ApiResponse<RepoItem[], {}>>;
 
   getRepoBranches(
     params: GetRepoBranchesParams
   ): Promise<ApiResponse<BranchesItem[], {}>>;
+
+  getRepoInfo(
+    params: GetRepoInfoParams
+  ): Promise<ApiResponse<RepoInfoItem, {}>>;
+
   // Необязательный пункт, т.к. требует авторизации. Понадобится в будущем
   postCreateRepo(
     params: PostCreateRepoParams

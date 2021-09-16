@@ -1,5 +1,7 @@
 import React from "react";
 
+import styles from "./Avatar.module.scss";
+
 type AvatarProps = {
   src?: string;
   letter: string;
@@ -8,12 +10,10 @@ type AvatarProps = {
 const Avatar: React.FC<AvatarProps> = ({ src, letter }) => {
   return (
     <div
-      className="git-repo-tile__avatar"
+      className={styles.repoTile__avatar}
       style={{ backgroundImage: `url(${src})` }}
     >
-      <span className="git-repo-tile__avatar-first-letter">
-        {!src && letter}
-      </span>
+      <span>{!src && letter}</span>
     </div>
   );
 };

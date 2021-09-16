@@ -1,0 +1,19 @@
+@import "@styles/variables.scss";
+
+.repoTile__avatar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	background-size: cover;
+	background-position: center;
+	background-color: $main-accent;
+	font-size: 40px;
+	font-weight: 700;
+	color: $background-color;
+	text-align: center;
+	flex-shrink: 0;
+	margin-right: calc($spacing-unit-4 * 3);
+}

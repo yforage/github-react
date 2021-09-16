@@ -1,0 +1,15 @@
+@import "@styles/variables.scss";
+
+.loader {
+  padding: calc($spacing-unit-4 * 3);
+  text-align: center;
+}
+
+.spinIcon {
+  overflow: hidden;
+  font-size: 24px;
+}
+
+.spinIcon svg {
+  color: $main-accent;
+}

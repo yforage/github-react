@@ -1,0 +1,6 @@
+@import "@styles/variables.scss";
+
+.repoLink:not(:first-of-type) {
+	display: block;
+	margin-top: calc($spacing-unit-4 * 4);
+}

@@ -1,62 +1,122 @@
-import React from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 
 import Button from "@components/Button";
 import Input from "@components/Input";
+import LoadSpin from "@components/LoadSpin";
 import RepoBranchesDrawer from "@components/RepoBranchesDrawer";
-import RepoTile from "@components/RepoTile";
+import ReposList from "@components/ReposList/ReposList";
 import SearchIcon from "@components/SearchIcon";
-import "./ReposSearchPage.css";
+import routes from "@config/routes";
+import GitHubStore from "@store/GitHubStore/GitHubStore";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { Route } from "react-router-dom";
 import { RepoItem } from "src/store/GitHubStore/types";
 
-import GitHubStore from "../../../store/GitHubStore/GitHubStore";
+import styles from "./ReposSearchPage.module.scss";
+
+type ReposContextProps = {
+  list: RepoItem[];
+  isLoading: boolean;
+  load: () => void;
+};
+
+const ReposContext = createContext<ReposContextProps>({
+  list: [],
+  isLoading: false,
+  load: () => {},
+});
+
+const Provider = ReposContext.Provider;
+
+const useReposContext = () => useContext(ReposContext);
 
 const ReposSearchPage = () => {
-  const [inputValue, setInputValue] = React.useState<string>("");
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [reposList, updateReposList] = React.useState<RepoItem[]>([]);
-  const [clickedRepoId, setClickedRepoId] = React.useState<number>(0);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [reposList, setReposList] = useState<RepoItem[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
 
-  const handleInputChange = (value: string) => setInputValue(value);
+  const handleIncPage = () => setPage((prev) => prev + 1);
+  const handleInputChange = useCallback((e) => {
+    setInputValue(e.target.value);
+  }, []);
+
   const handleLoading = () => setIsLoading((prev) => !prev);
-  const handleReposList = (repos: RepoItem[]) => updateReposList(repos);
-  const selectRepo = (repoId: number) => setClickedRepoId(repoId);
+  const handleExtendReposList = (repos: RepoItem[]) =>
+    setReposList((prev) => [...prev, ...repos]);
+  const handleNewReposList = (repos: RepoItem[]) => setReposList(repos);
 
-  const searchOrganization = async (orgName: string) => {
+  const api = useRef(new GitHubStore());
+
+  const getOrganizationRepos = (
+    orgName: string,
+    per_page?: number,
+    page?: number,
+    newList?: boolean
+  ) => {
     if (!orgName) return;
     handleLoading();
-    const api = new GitHubStore();
-    const response = await api.getRepoList({ orgName });
-    handleReposList(response.success ? response.data : []);
-    handleLoading();
+    (async () => {
+      const response = await api.current.getRepoList({
+        orgName,
+        per_page,
+        page,
+      });
+      const data = response.success ? response.data : [];
+      if (newList) {
+        handleNewReposList(data);
+      } else {
+        handleExtendReposList(data);
+      }
+      handleLoading();
+    })();
+    if (page) handleIncPage();
   };
+
+  const getReposListPart = () => getOrganizationRepos(inputValue, 6, page);
+  const getNewReposListPart = () => {
+    setPage(1);
+    getOrganizationRepos(inputValue, 6, 1, true);
+  };
+
   return (
-    <div className="git-repo-list">
-      <div className="git-repo-search">
-        <Input
-          value={inputValue}
-          placeholder="Введите название организации"
-          onChange={(e) => handleInputChange(e.target.value)}
-        />
-        <Button
-          onClick={() => searchOrganization(inputValue)}
-          disabled={isLoading}
+    <Provider
+      value={{
+        list: reposList,
+        isLoading: isLoading,
+        load: getReposListPart,
+      }}
+    >
+      <div className={styles.repoList}>
+        <div className={styles.repoSearch}>
+          <Input
+            value={inputValue}
+            placeholder="Введите название организации"
+            onChange={handleInputChange}
+          />
+          <Button onClick={getNewReposListPart} disabled={isLoading}>
+            <SearchIcon />
+          </Button>
+        </div>
+        <InfiniteScroll
+          dataLength={reposList.length}
+          next={getReposListPart}
+          hasMore={true}
+          loader={isLoading && <LoadSpin />}
+          scrollThreshold={1}
         >
-          <SearchIcon />
-        </Button>
+          <ReposList />
+        </InfiniteScroll>
       </div>
-      {reposList.map((repoItem) => {
-        return (
-          <RepoTile key={repoItem.id} item={repoItem} onClick={selectRepo} />
-        );
-      })}
-      <RepoBranchesDrawer
-        selectedRepo={
-          reposList[reposList.findIndex((item) => item.id === clickedRepoId)]
-        }
-        onClose={selectRepo}
-      />
-    </div>
+      <Route exact path={routes.repoInfo.mask} component={RepoBranchesDrawer} />
+    </Provider>
   );
 };
 
-export default ReposSearchPage;
+export { useReposContext, ReposSearchPage };

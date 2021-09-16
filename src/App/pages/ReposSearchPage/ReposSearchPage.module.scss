@@ -1,0 +1,18 @@
+@import "@styles/variables.scss";
+
+.repoList {
+	display: grid;
+	row-gap: calc($spacing-unit-4 * 4);
+	justify-content: center;
+	grid-template-columns: 357px;
+	margin: calc($spacing-unit-4 * 2);
+}
+
+.repoSearch {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	margin-bottom: 0;
+}
+
+
