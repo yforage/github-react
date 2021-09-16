@@ -1,6 +1,6 @@
 import React from "react";
 
-import styles from "../../App/pages/ReposSearchPage/ReposSearchPage.module.scss";
+import styles from "./Avatar.module.scss";
 
 type AvatarProps = {
   src?: string;
@@ -13,7 +13,7 @@ const Avatar: React.FC<AvatarProps> = ({ src, letter }) => {
       className={styles.repoTile__avatar}
       style={{ backgroundImage: `url(${src})` }}
     >
-      <span className={styles.repoTile__firstLetter}>{!src && letter}</span>
+      <span>{!src && letter}</span>
     </div>
   );
 };
