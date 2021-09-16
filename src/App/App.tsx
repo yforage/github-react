@@ -1,6 +1,8 @@
+import routes from "@config/routes";
 import { Layout } from "antd";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 
+import styles from "./App.module.scss";
 import { ReposSearchPage } from "./pages/ReposSearchPage";
 
 const { Content } = Layout;
@@ -8,12 +10,14 @@ const { Content } = Layout;
 const App = () => {
   return (
     <BrowserRouter>
-      <Layout style={{ minHeight: "100vh" }}>
+      <Layout>
         <Content>
-          <Switch>
-            <Route path="/repos" component={ReposSearchPage} />
-            <Redirect to="/repos" />
-          </Switch>
+          <div className={styles.fullViewportHeight}>
+            <Switch>
+              <Route path={routes.repos.mask} component={ReposSearchPage} />
+              <Redirect to={routes.repos.mask} />
+            </Switch>
+          </div>
         </Content>
       </Layout>
     </BrowserRouter>
