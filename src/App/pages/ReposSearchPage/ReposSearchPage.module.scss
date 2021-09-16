@@ -2,15 +2,11 @@
 
 .repoList {
 	display: grid;
-	row-gap: 16px;
+	row-gap: calc($spacing-unit-4 * 4);
 	justify-content: center;
 	grid-template-columns: 357px;
-	margin: 8px;
+	margin: calc($spacing-unit-4 * 2);
 }
-
-/*
-	Блок поиска
-*/
 
 .repoSearch {
 	display: flex;
@@ -19,120 +15,4 @@
 	margin-bottom: 0;
 }
 
-.repoSearch__input {
-	width: 80%;
-	display: flex;
-}
 
-.repoSearch__inputField {
-	border: 1px solid $border-disabled-dark;
-	border-radius: $border-radius;
-	padding-left: 12px;
-	flex-grow: 1;
-	font: inherit;
-}
-
-.repoSearch__inputField:focus {
-	outline: none;
-	border-color: $main-accent;
-}
-
-.repoSearch__inputField:disabled {
-	background-color: $disabled-light;
-}
-
-.repoSearch__button {
-	background-color: $main-accent;
-	border-radius: $border-radius;
-	border-style: none;
-	cursor: pointer;
-	padding: 16px;
-	color: $background-color;
-}
-
-.repoSearch__button:hover {
-	opacity: 0.7;
-}
-
-.repoSearch__button:disabled {
-	cursor: default;
-	background-color: $border-disabled-dark;
-}
-
-.repoSearch__button:disabled:hover {
-	opacity: 1;
-}
-
-/*
-	Блок карточки репозитория
-*/
-
-.repoTile {
-	display: flex;
-	border-radius: $border-radius;
-	border: 1px solid $border-disabled-dark;
-	align-items: center;
-	color: $text-hint;
-	box-sizing: border-box;
-	width: 100%;
-	padding: 12px;
-}
-
-.repoLink:not(:first-of-type) {
-	display: block;
-	margin-top: 16px;
-}
-
-.repoTile:hover {
-	box-shadow: 0px 2px 6px $shadow;
-	cursor: pointer;
-}
-
-.repoTile__avatar {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 80px;
-	height: 80px;
-	border-radius: 50%;
-	background-size: cover;
-	background-position: center;
-	background-color: $main-accent;
-	font-size: 40px;
-	font-weight: 700;
-	color: $background-color;
-	text-align: center;
-	flex-shrink: 0;
-	margin-right: 12px;
-}
-
-.repoTile__content {
-	overflow: hidden;
-	flex-grow: 1;
-}
-
-.repoTile__repoName {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	margin: 0;
-	color: $text-default;
-	font-weight: 700;
-	font-size: 16px;
-}
-
-.repoTile__orgName:hover {
-	color: $link-hover;
-}
-
-.repoTile__info {
-	display: flex;
-}
-
-.repoTile__starImage {
-	color: $star-accent;
-}
-
-.repoTile__stars {
-	width: 27%;
-}
