@@ -1,6 +1,6 @@
 import React from "react";
 
-import styles from "../../App/pages/ReposSearchPage/ReposSearchPage.module.scss";
+import styles from "./Button.module.scss";
 
 type ButtonProps = {
   children: React.ReactNode;

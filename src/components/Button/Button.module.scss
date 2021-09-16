@@ -1,0 +1,23 @@
+@import "@styles/variables.scss";
+
+.repoSearch__button {
+	background-color: $main-accent;
+	border-radius: $border-radius;
+	border-style: none;
+	cursor: pointer;
+	padding: calc($spacing-unit-4 * 4);
+	color: $background-color;
+}
+
+.repoSearch__button:hover {
+	opacity: 0.7;
+}
+
+.repoSearch__button:disabled {
+	cursor: default;
+	background-color: $border-disabled-dark;
+}
+
+.repoSearch__button:disabled:hover {
+	opacity: 1;
+}
