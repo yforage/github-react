@@ -1,16 +1,23 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 
 import Button from "@components/Button";
 import Input from "@components/Input";
 import LoadSpin from "@components/LoadSpin";
 import RepoBranchesDrawer from "@components/RepoBranchesDrawer";
-import RepoTile from "@components/RepoTile";
+import ReposList from "@components/ReposList/ReposList";
 import SearchIcon from "@components/SearchIcon";
+import routes from "@config/routes";
+import GitHubStore from "@store/GitHubStore/GitHubStore";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Link, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { RepoItem } from "src/store/GitHubStore/types";
 
-import GitHubStore from "../../../store/GitHubStore/GitHubStore";
 import styles from "./ReposSearchPage.module.scss";
 
 type ReposContextProps = {
@@ -44,6 +51,8 @@ const ReposSearchPage = () => {
   const handleReposList = (repos: RepoItem[]) =>
     setReposList((prev) => [...prev, ...repos]);
 
+  const api = useRef(new GitHubStore());
+
   const getOrganizationRepos = (
     orgName: string,
     per_page?: number,
@@ -52,19 +61,25 @@ const ReposSearchPage = () => {
     if (!orgName) return;
     handleLoading();
     (async () => {
-      const api = new GitHubStore();
-      const response = await api.getRepoList({ orgName, per_page, page });
+      const response = await api.current.getRepoList({
+        orgName,
+        per_page,
+        page,
+      });
       handleReposList(response.success ? response.data : []);
       handleLoading();
     })();
     if (page) handleIncPage();
   };
+
+  const getReposListPart = () => getOrganizationRepos(inputValue, 6, page);
+
   return (
     <Provider
       value={{
         list: reposList,
         isLoading: isLoading,
-        load: handleLoading,
+        load: getReposListPart,
       }}
     >
       <div className={styles.repoList}>
@@ -74,35 +89,21 @@ const ReposSearchPage = () => {
             placeholder="Введите название организации"
             onChange={handleInputChange}
           />
-          <Button
-            onClick={() => getOrganizationRepos(inputValue, 6, page)}
-            disabled={isLoading}
-          >
+          <Button onClick={getReposListPart} disabled={isLoading}>
             <SearchIcon />
           </Button>
         </div>
         <InfiniteScroll
-          className={styles.scroll}
           dataLength={reposList.length}
-          next={() => getOrganizationRepos(inputValue, 6, page)}
+          next={getReposListPart}
           hasMore={true}
           loader={isLoading && <LoadSpin />}
           scrollThreshold={1}
         >
-          {reposList.map((repoItem) => {
-            return (
-              <Link
-                to={`/repos/${repoItem.owner.login}/${repoItem.name}`}
-                key={repoItem.id}
-                className={styles.repoLink}
-              >
-                <RepoTile item={repoItem} />
-              </Link>
-            );
-          })}
+          <ReposList />
         </InfiniteScroll>
       </div>
-      <Route exact path="/repos/:owner/:name" component={RepoBranchesDrawer} />
+      <Route exact path={routes.repoInfo.mask} component={RepoBranchesDrawer} />
     </Provider>
   );
 };
