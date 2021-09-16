@@ -40,23 +40,25 @@ const ReposSearchPage = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [reposList, setReposList] = useState<RepoItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [page, incPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(1);
 
-  const handleIncPage = () => incPage((prev) => prev + 1);
+  const handleIncPage = () => setPage((prev) => prev + 1);
   const handleInputChange = useCallback((e) => {
     setInputValue(e.target.value);
   }, []);
 
   const handleLoading = () => setIsLoading((prev) => !prev);
-  const handleReposList = (repos: RepoItem[]) =>
+  const handleExtendReposList = (repos: RepoItem[]) =>
     setReposList((prev) => [...prev, ...repos]);
+  const handleNewReposList = (repos: RepoItem[]) => setReposList(repos);
 
   const api = useRef(new GitHubStore());
 
   const getOrganizationRepos = (
     orgName: string,
     per_page?: number,
-    page?: number
+    page?: number,
+    newList?: boolean
   ) => {
     if (!orgName) return;
     handleLoading();
@@ -66,13 +68,22 @@ const ReposSearchPage = () => {
         per_page,
         page,
       });
-      handleReposList(response.success ? response.data : []);
+      const data = response.success ? response.data : [];
+      if (newList) {
+        handleNewReposList(data);
+      } else {
+        handleExtendReposList(data);
+      }
       handleLoading();
     })();
     if (page) handleIncPage();
   };
 
   const getReposListPart = () => getOrganizationRepos(inputValue, 6, page);
+  const getNewReposListPart = () => {
+    setPage(1);
+    getOrganizationRepos(inputValue, 6, 1, true);
+  };
 
   return (
     <Provider
@@ -89,7 +100,7 @@ const ReposSearchPage = () => {
             placeholder="Введите название организации"
             onChange={handleInputChange}
           />
-          <Button onClick={getReposListPart} disabled={isLoading}>
+          <Button onClick={getNewReposListPart} disabled={isLoading}>
             <SearchIcon />
           </Button>
         </div>
