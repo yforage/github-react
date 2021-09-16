@@ -7,7 +7,7 @@ const LoadSpin: React.FC = () => {
   const loadIcon = <LoadingOutlined className={styles.spinIcon} spin />;
   return (
     <div className={styles.loader}>
-      <Spin className={styles.spin} indicator={loadIcon} />
+      <Spin indicator={loadIcon} />
     </div>
   );
 };

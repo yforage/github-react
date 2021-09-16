@@ -1,7 +1,7 @@
 @import "@styles/variables.scss";
 
 .loader {
-  padding: 10px;
+  padding: calc($spacing-unit-4 * 3);
   text-align: center;
 }
 
