@@ -54,7 +54,6 @@ export default class RepoItemStore implements IRepoItemStore, ILocalStore {
       endpoint: apiEndpoints.repoInfo(owner, name),
       headers: {
         accept: "application/vnd.github.v3+json",
-        Authorization: "token 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",
       },
       data: "",
     };

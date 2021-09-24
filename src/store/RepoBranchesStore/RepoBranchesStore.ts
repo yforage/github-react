@@ -60,7 +60,6 @@ export default class RepoBranchesStore
       endpoint: apiEndpoints.repoBranches(owner, repo),
       headers: {
         accept: "application/vnd.github.v3+json",
-        Authorization: "token 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",
       },
       data: params,
     };
