@@ -81,7 +81,7 @@ export default class ReposListStore implements IReposListStore, ILocalStore {
 
   async getReposList({ orgName, ...params }: GetRepoListParams): Promise<void> {
     this._meta = Meta.loading;
-    if (!params.page || params.page === 1) {
+    if (!params.page) {
       this._list = getInitialCollectionModel();
     }
 
@@ -101,9 +101,18 @@ export default class ReposListStore implements IReposListStore, ILocalStore {
       }
       try {
         this._meta = Meta.success;
+        const newData = response.data.map((item: RepoItemApi) =>
+          normalizeRepoItem(item)
+        );
+        if (
+          newData.some(({ id }: RepoItemModel) =>
+            this._list.order.some((oldId) => oldId === id)
+          )
+        )
+          return;
         const list = [
           ...this._list.order.map((id) => this._list.entities[id]),
-          ...response.data.map((item: RepoItemApi) => normalizeRepoItem(item)),
+          ...newData,
         ];
         this._list = normalizeCollection(list, (repoItem) => repoItem.id);
         return;
