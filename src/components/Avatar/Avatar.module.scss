@@ -17,3 +17,11 @@
 	flex-shrink: 0;
 	margin-right: calc($spacing-unit-4 * 3);
 }
+
+.whiteBackground {
+	background-color: $background-color;
+}
+
+.mainBackground {
+	background-color: $main-accent;
+}

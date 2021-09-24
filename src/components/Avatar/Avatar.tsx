@@ -10,8 +10,12 @@ type AvatarProps = {
 const Avatar: React.FC<AvatarProps> = ({ src, letter }) => {
   return (
     <div
-      className={styles.repoTile__avatar}
-      style={{ backgroundImage: `url(${src})` }}
+      className={`${styles.repoTile__avatar} ${
+        src ? styles.whiteBackground : styles.mainBackground
+      }`}
+      style={{
+        backgroundImage: `url(${src})`,
+      }}
     >
       <span>{!src && letter}</span>
     </div>
