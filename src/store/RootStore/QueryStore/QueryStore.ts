@@ -13,6 +13,7 @@ export default class QueryStore {
       _params: observable,
       setParam: action,
       setHistory: action,
+      setInitialQueryToParam: action,
     });
   }
 
@@ -22,13 +23,16 @@ export default class QueryStore {
     return this._params[key];
   }
 
-  setHistory(history: any, location: any): void {
-    this._history = history;
-    this._location = location;
+  setInitialQueryToParam() {
     const newSearch = this._location.search.startsWith("?")
       ? this._location.search.slice(1)
       : this._location.search;
-    setTimeout(() => (this._params = qs.parse(newSearch)), 100);
+    this._params = qs.parse(newSearch);
+  }
+
+  setHistory(history: any, location: any): void {
+    this._history = history;
+    this._location = location;
   }
 
   setParam(key: string, value: string) {

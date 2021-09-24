@@ -8,3 +8,7 @@ export const useQueryStoreInit = (): void => {
   const history = useHistory();
   rootStore.query.setHistory(history, location);
 };
+
+export const useQueryStoreSetInitialQuery = (): void => {
+  setTimeout(() => rootStore.query.setInitialQueryToParam(), 100);
+};

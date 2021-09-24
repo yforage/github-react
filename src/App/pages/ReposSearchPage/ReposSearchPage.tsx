@@ -9,6 +9,7 @@ import ReposList from "@components/ReposList/ReposList";
 import SearchIcon from "@components/SearchIcon";
 import routes from "@config/routes";
 import ReposListStore from "@store/ReposListStore";
+import { useQueryStoreSetInitialQuery } from "@store/RootStore/hooks/useQueryStoreInit";
 import { Meta } from "@utils/meta";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
@@ -31,6 +32,8 @@ const useReposListContext = () => useContext(ReposListContext);
 
 const SearchPage = () => {
   const reposListStore = useLocalStore(() => new ReposListStore());
+
+  useQueryStoreSetInitialQuery();
 
   return (
     <Provider
