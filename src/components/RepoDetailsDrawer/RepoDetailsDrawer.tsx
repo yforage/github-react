@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 
+import ErrorMessage from "@components/ErrorMessage";
 import LoadSpin from "@components/LoadSpin";
-import GitHubStore from "@store/GitHubStore";
+import RepoItemStore from "@store/RepoItemStore";
+import { Meta } from "@utils/meta";
+import { useLocalStore } from "@utils/useLocalStore";
 import { Drawer } from "antd";
+import { observer } from "mobx-react-lite";
 import { useParams, useHistory } from "react-router-dom";
-import { RepoInfoItem } from "src/store/GitHubStore/types";
 
 import Branches from "./components/Branches";
 import RepoInfo from "./components/RepoInfo";
@@ -14,33 +17,24 @@ type ParamsProps = {
   name: string;
 };
 
-const RepoBranchesDrawer: React.FC = () => {
+const RepoDetailsDrawer: React.FC = () => {
   const { owner, name } = useParams<ParamsProps>();
+
+  const repoItemStore = useLocalStore(() => new RepoItemStore());
 
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => setIsOpen((prev) => !prev);
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const handleLoading = () => setIsLoading(false);
-
-  const [repoInfo, setRepoInfo] = useState<RepoInfoItem | null>(null);
-  const handleRepoInfo = (repo: RepoInfoItem | null) => setRepoInfo(repo);
 
   const history = useHistory();
 
   useEffect(() => {
     if (!(owner && name)) return;
-    const api = new GitHubStore();
-    (async () => {
-      const response = await api.getRepoInfo({
-        owner,
-        name,
-      });
-      handleRepoInfo(response.success ? response.data : null);
-      handleLoading();
-    })();
+    repoItemStore.getRepoInfo({
+      owner,
+      name,
+    });
     handleOpen();
-  }, [owner, name]);
+  }, [owner, name, repoItemStore]);
   return (
     <Drawer
       title="More about"
@@ -48,22 +42,22 @@ const RepoBranchesDrawer: React.FC = () => {
       onClose={() => {
         handleOpen();
         setTimeout(() => {
-          handleRepoInfo(null);
           history.goBack();
         }, 100);
       }}
       visible={isOpen}
       closable={true}
     >
-      {isLoading && <LoadSpin />}
-      {!isLoading && (
+      {repoItemStore.meta === Meta.loading && <LoadSpin />}
+      {repoItemStore.meta === Meta.error && <ErrorMessage />}
+      {repoItemStore.meta === Meta.success && (
         <>
-          <RepoInfo repo={repoInfo} />
-          <Branches repo={repoInfo} />
+          <RepoInfo repo={repoItemStore.info} />
+          <Branches repo={repoItemStore.info} />
         </>
       )}
     </Drawer>
   );
 };
 
-export default RepoBranchesDrawer;
+export default observer(RepoDetailsDrawer);
