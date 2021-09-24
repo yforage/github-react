@@ -1,122 +1,75 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useRef,
-  useState,
-} from "react";
+import { createContext, useContext } from "react";
 
 import Button from "@components/Button";
+import ErrorMessage from "@components/ErrorMessage";
 import Input from "@components/Input";
 import LoadSpin from "@components/LoadSpin";
-import RepoBranchesDrawer from "@components/RepoBranchesDrawer";
+import RepoDetailsDrawer from "@components/RepoDetailsDrawer";
 import ReposList from "@components/ReposList/ReposList";
 import SearchIcon from "@components/SearchIcon";
 import routes from "@config/routes";
-import GitHubStore from "@store/GitHubStore/GitHubStore";
+import ReposListStore from "@store/ReposListStore";
+import { Meta } from "@utils/meta";
+import { useLocalStore } from "@utils/useLocalStore";
+import { observer } from "mobx-react-lite";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Route } from "react-router-dom";
-import { RepoItem } from "src/store/GitHubStore/types";
 
 import styles from "./ReposSearchPage.module.scss";
 
-type ReposContextProps = {
-  list: RepoItem[];
-  isLoading: boolean;
-  load: () => void;
+type ReposListContextProps = {
+  store: null | ReposListStore;
 };
 
-const ReposContext = createContext<ReposContextProps>({
-  list: [],
-  isLoading: false,
-  load: () => {},
+const ReposListContext = createContext<ReposListContextProps>({
+  store: null,
 });
 
-const Provider = ReposContext.Provider;
+const Provider = ReposListContext.Provider;
 
-const useReposContext = () => useContext(ReposContext);
+const useReposListContext = () => useContext(ReposListContext);
 
-const ReposSearchPage = () => {
-  const [inputValue, setInputValue] = useState<string>("");
-  const [reposList, setReposList] = useState<RepoItem[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(1);
-
-  const handleIncPage = () => setPage((prev) => prev + 1);
-  const handleInputChange = useCallback((e) => {
-    setInputValue(e.target.value);
-  }, []);
-
-  const handleLoading = () => setIsLoading((prev) => !prev);
-  const handleExtendReposList = (repos: RepoItem[]) =>
-    setReposList((prev) => [...prev, ...repos]);
-  const handleNewReposList = (repos: RepoItem[]) => setReposList(repos);
-
-  const api = useRef(new GitHubStore());
-
-  const getOrganizationRepos = (
-    orgName: string,
-    per_page?: number,
-    page?: number,
-    newList?: boolean
-  ) => {
-    if (!orgName) return;
-    handleLoading();
-    (async () => {
-      const response = await api.current.getRepoList({
-        orgName,
-        per_page,
-        page,
-      });
-      const data = response.success ? response.data : [];
-      if (newList) {
-        handleNewReposList(data);
-      } else {
-        handleExtendReposList(data);
-      }
-      handleLoading();
-    })();
-    if (page) handleIncPage();
-  };
-
-  const getReposListPart = () => getOrganizationRepos(inputValue, 6, page);
-  const getNewReposListPart = () => {
-    setPage(1);
-    getOrganizationRepos(inputValue, 6, 1, true);
-  };
+const SearchPage = () => {
+  const reposListStore = useLocalStore(() => new ReposListStore());
 
   return (
     <Provider
       value={{
-        list: reposList,
-        isLoading: isLoading,
-        load: getReposListPart,
+        store: reposListStore,
       }}
     >
       <div className={styles.repoList}>
         <div className={styles.repoSearch}>
           <Input
-            value={inputValue}
+            value={reposListStore.input}
             placeholder="Введите название организации"
-            onChange={handleInputChange}
+            onChange={reposListStore.handleInputChange}
           />
-          <Button onClick={getNewReposListPart} disabled={isLoading}>
+          <Button
+            onClick={reposListStore.getNewReposListPart}
+            disabled={reposListStore.meta === Meta.loading}
+          >
             <SearchIcon />
           </Button>
         </div>
         <InfiniteScroll
-          dataLength={reposList.length}
-          next={getReposListPart}
+          dataLength={reposListStore.list.length}
+          next={reposListStore.getReposListPart}
           hasMore={true}
-          loader={isLoading && <LoadSpin />}
-          scrollThreshold={1}
+          loader={reposListStore.meta === Meta.loading && <LoadSpin />}
+          scrollThreshold={0.9}
         >
           <ReposList />
+          {reposListStore.meta === Meta.error && (
+            <ErrorMessage message="Не нашли такую организацию на GitHub" />
+          )}
         </InfiniteScroll>
       </div>
-      <Route exact path={routes.repoInfo.mask} component={RepoBranchesDrawer} />
+      <Route exact path={routes.repoInfo.mask} component={RepoDetailsDrawer} />
     </Provider>
   );
 };
 
-export { useReposContext, ReposSearchPage };
+const ReposSearchPage = observer(SearchPage);
+
+export { useReposListContext, ReposSearchPage };
