@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import ErrorMessage from "@components/ErrorMessage";
 import LoadSpin from "@components/LoadSpin";
-import { RepoInfoModel } from "@store/models/gitHub/repoInfo";
+import { RepoInfoModel } from "@store/models/gitHub";
 import RepoBranchesStore from "@store/RepoBranchesStore";
 import { Meta } from "@utils/meta";
 import { useLocalStore } from "@utils/useLocalStore";
