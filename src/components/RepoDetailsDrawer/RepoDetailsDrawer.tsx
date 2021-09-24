@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import ErrorMessage from "@components/ErrorMessage";
 import LoadSpin from "@components/LoadSpin";
@@ -22,9 +22,6 @@ const RepoDetailsDrawer: React.FC = () => {
 
   const repoItemStore = useLocalStore(() => new RepoItemStore());
 
-  const [isOpen, setIsOpen] = useState(false);
-  const handleOpen = () => setIsOpen((prev) => !prev);
-
   const history = useHistory();
 
   useEffect(() => {
@@ -33,19 +30,19 @@ const RepoDetailsDrawer: React.FC = () => {
       owner,
       name,
     });
-    handleOpen();
+    repoItemStore.toggleDrawerState();
   }, [owner, name, repoItemStore]);
   return (
     <Drawer
       title="More about"
       placement="right"
       onClose={() => {
-        handleOpen();
+        repoItemStore.toggleDrawerState();
         setTimeout(() => {
           history.goBack();
         }, 100);
       }}
-      visible={isOpen}
+      visible={repoItemStore.drawerState}
       closable={true}
     >
       {repoItemStore.meta === Meta.loading && <LoadSpin />}
