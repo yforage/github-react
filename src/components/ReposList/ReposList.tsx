@@ -1,15 +1,19 @@
+import React from "react";
+
 import RepoTile from "@components/RepoTile";
 import routes from "@config/routes";
-import { useReposContext } from "@pages/ReposSearchPage";
+import { useReposListContext } from "@pages/ReposSearchPage";
+import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 
 import styles from "./ReposList.module.scss";
 
 const ReposList: React.FC = () => {
-  const reposContext = useReposContext();
+  const reposContext = useReposListContext();
+  if (reposContext.store === null) return null;
   return (
     <>
-      {reposContext.list.map((repoItem) => {
+      {reposContext.store.list.map((repoItem) => {
         return (
           <Link
             to={routes.repoInfo.create(repoItem.owner.login, repoItem.name)}
@@ -24,4 +28,4 @@ const ReposList: React.FC = () => {
   );
 };
 
-export default ReposList;
+export default observer(ReposList);
