@@ -19,21 +19,25 @@ import {
 import { HTTPMethod } from "../RootStore/ApiStore/types";
 import { GetRepoInfoParams, IRepoItemStore } from "./types";
 
-type PrivateFields = "_info" | "_meta";
+type PrivateFields = "_info" | "_meta" | "_drawerState";
 
 export default class RepoItemStore implements IRepoItemStore, ILocalStore {
   private readonly _apiStore = rootStore.api;
 
   private _info: RepoInfoModel | null = null;
   private _meta: Meta = Meta.initial;
+  private _drawerState: boolean = false;
 
   constructor() {
     makeObservable<RepoItemStore, PrivateFields>(this, {
       _info: observable.ref,
       _meta: observable,
+      _drawerState: observable,
       info: computed,
       meta: computed,
+      drawerState: computed,
       getRepoInfo: action,
+      toggleDrawerState: action,
     });
   }
 
@@ -43,6 +47,10 @@ export default class RepoItemStore implements IRepoItemStore, ILocalStore {
 
   get meta() {
     return this._meta;
+  }
+
+  get drawerState() {
+    return this._drawerState;
   }
 
   async getRepoInfo({ owner, name }: GetRepoInfoParams): Promise<void> {
@@ -74,6 +82,10 @@ export default class RepoItemStore implements IRepoItemStore, ILocalStore {
         this._info = null;
       }
     });
+  }
+
+  toggleDrawerState(): void {
+    this._drawerState = !this._drawerState;
   }
 
   destroy(): void {}
