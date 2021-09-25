@@ -81,7 +81,7 @@ export default class ReposListStore implements IReposListStore, ILocalStore {
 
   async getReposList({ orgName, ...params }: GetRepoListParams): Promise<void> {
     this._meta = Meta.loading;
-    if (!params.page) {
+    if (!params.page || params.page === 1) {
       this._list = getInitialCollectionModel();
     }
 
