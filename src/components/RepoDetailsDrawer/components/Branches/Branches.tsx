@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 import ErrorMessage from "@components/ErrorMessage";
 import LoadSpin from "@components/LoadSpin";
+import links from "@config/links";
 import { RepoInfoModel } from "@store/models/gitHub";
 import RepoBranchesStore from "@store/RepoBranchesStore";
 import { Meta } from "@utils/meta";
@@ -18,12 +19,6 @@ type BranchesProps = {
 const Branches: React.FC<BranchesProps> = ({ repo }) => {
   const repoBranchesStore = useLocalStore(() => new RepoBranchesStore());
 
-  const createBranchLink = (
-    owner: string,
-    repoName: string,
-    branchName: string
-  ): string => `https://github.com/${owner}/${repoName}/tree/${branchName}`;
-
   useEffect(() => {
     if (!repo) return;
     repoBranchesStore.getRepoBranches({
@@ -38,7 +33,7 @@ const Branches: React.FC<BranchesProps> = ({ repo }) => {
       <p className={styles.branches__title}>Branches:</p>
       {repoBranchesStore.meta === Meta.success &&
         repoBranchesStore.branchesList.map((branch) => {
-          const href = createBranchLink(
+          const href = links.branchLink(
             repo.owner.login,
             repo.name,
             branch.name
