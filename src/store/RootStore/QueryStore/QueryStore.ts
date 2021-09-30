@@ -13,7 +13,7 @@ export default class QueryStore {
       _params: observable,
       setParam: action,
       setHistory: action,
-      setInitialQueryToParam: action,
+      syncQueryParams: action,
     });
   }
 
@@ -23,7 +23,7 @@ export default class QueryStore {
     return this._params[key];
   }
 
-  setInitialQueryToParam() {
+  syncQueryParams() {
     const newSearch = this._location.search.startsWith("?")
       ? this._location.search.slice(1)
       : this._location.search;
