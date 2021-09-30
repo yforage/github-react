@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 
 import ErrorMessage from "@components/ErrorMessage";
 import LoadSpin from "@components/LoadSpin";
-import links from "@config/links";
 import { RepoInfoModel } from "@store/models/gitHub";
 import RepoBranchesStore from "@store/RepoBranchesStore";
+import links from "@utils/links";
 import { Meta } from "@utils/meta";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
