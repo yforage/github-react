@@ -1,20 +1,5 @@
-import apiEndpoints from "@config/api";
-import { QueryParams } from "@config/queryParams";
-import {
-  normalizeRepoItem,
-  RepoItemApi,
-  RepoItemModel,
-} from "@store/models/gitHub";
-import {
-  CollectionModel,
-  getInitialCollectionModel,
-  linearizeCollection,
-  normalizeCollection,
-} from "@store/models/shared/collection";
-import rootStore from "@store/RootStore";
-import log from "@utils/log";
-import { Meta } from "@utils/meta";
-import { ILocalStore } from "@utils/useLocalStore";
+import apiEndpoints from "config/api";
+import { QueryParams } from "config/queryParams";
 import {
   action,
   computed,
@@ -24,6 +9,21 @@ import {
   reaction,
   runInAction,
 } from "mobx";
+import {
+  normalizeRepoItem,
+  RepoItemApi,
+  RepoItemModel,
+} from "store/models/gitHub";
+import {
+  CollectionModel,
+  getInitialCollectionModel,
+  linearizeCollection,
+  normalizeCollection,
+} from "store/models/shared/collection";
+import rootStore from "store/RootStore";
+import log from "utils/log";
+import { Meta } from "utils/meta";
+import { ILocalStore } from "utils/useLocalStore";
 
 import { HTTPMethod } from "../RootStore/ApiStore/types";
 import { GetRepoListParams, IReposListStore } from "./types";

@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 
-import ErrorMessage from "@components/ErrorMessage";
-import LoadSpin from "@components/LoadSpin";
-import { RepoInfoModel } from "@store/models/gitHub";
-import RepoBranchesStore from "@store/RepoBranchesStore";
-import links from "@utils/links";
-import { Meta } from "@utils/meta";
-import { useLocalStore } from "@utils/useLocalStore";
+import ErrorMessage from "components/ErrorMessage";
+import LoadSpin from "components/LoadSpin";
 import { observer } from "mobx-react-lite";
+import { RepoInfoModel } from "store/models/gitHub";
+import RepoBranchesStore from "store/RepoBranchesStore";
+import links from "utils/links";
+import { Meta } from "utils/meta";
+import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./Branches.module.scss";
 import BranchItem from "./components/BranchItem";

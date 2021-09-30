@@ -1,13 +1,4 @@
-import apiEndpoints from "@config/api";
-import {
-  BranchesItemApi,
-  BranchesItemModel,
-  normalizeBranchesItem,
-} from "@store/models/gitHub";
-import rootStore from "@store/RootStore";
-import log from "@utils/log";
-import { Meta } from "@utils/meta";
-import { ILocalStore } from "@utils/useLocalStore";
+import apiEndpoints from "config/api";
 import {
   action,
   computed,
@@ -15,6 +6,15 @@ import {
   observable,
   runInAction,
 } from "mobx";
+import {
+  BranchesItemApi,
+  BranchesItemModel,
+  normalizeBranchesItem,
+} from "store/models/gitHub";
+import rootStore from "store/RootStore";
+import log from "utils/log";
+import { Meta } from "utils/meta";
+import { ILocalStore } from "utils/useLocalStore";
 
 import { HTTPMethod } from "../RootStore/ApiStore/types";
 import { GetRepoBranchesParams, IRepoBranchesStore } from "./types";

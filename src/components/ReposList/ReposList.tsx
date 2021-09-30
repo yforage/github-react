@@ -1,10 +1,10 @@
 import React from "react";
 
-import RepoTile from "@components/RepoTile";
-import routes from "@config/routes";
-import { useReposListContext } from "@store/ReposListStore/ReposListContext";
+import RepoTile from "components/RepoTile";
+import routes from "config/routes";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
+import { useReposListContext } from "store/ReposListStore/ReposListContext";
 
 import styles from "./ReposList.module.scss";
 
