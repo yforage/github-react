@@ -4,7 +4,7 @@ import { Layout } from "antd";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import styles from "./App.module.scss";
-import { ReposSearchPage } from "./pages/ReposSearchPage";
+import ReposSearchPage from "./pages/ReposSearchPage";
 
 const { Content } = Layout;
 

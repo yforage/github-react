@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { useMemo } from "react";
 
 import Button from "@components/Button";
 import ErrorMessage from "@components/ErrorMessage";
@@ -9,7 +9,7 @@ import ReposList from "@components/ReposList/ReposList";
 import SearchIcon from "@components/SearchIcon";
 import routes from "@config/routes";
 import ReposListStore from "@store/ReposListStore";
-import { useQueryStoreSetInitialQuery } from "@store/RootStore/hooks/useQueryStoreInit";
+import { Provider } from "@store/ReposListStore/ReposListContext";
 import { Meta } from "@utils/meta";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
@@ -18,29 +18,18 @@ import { Route } from "react-router-dom";
 
 import styles from "./ReposSearchPage.module.scss";
 
-type ReposListContextProps = {
-  store: null | ReposListStore;
-};
-
-const ReposListContext = createContext<ReposListContextProps>({
-  store: null,
-});
-
-const Provider = ReposListContext.Provider;
-
-const useReposListContext = () => useContext(ReposListContext);
-
-const SearchPage = () => {
+const ReposSearchPage = () => {
   const reposListStore = useLocalStore(() => new ReposListStore());
 
-  useQueryStoreSetInitialQuery();
+  const memoReposListStore = useMemo(
+    () => ({
+      store: reposListStore,
+    }),
+    [reposListStore]
+  );
 
   return (
-    <Provider
-      value={{
-        store: reposListStore,
-      }}
-    >
+    <Provider value={memoReposListStore}>
       <div className={styles.repoList}>
         <div className={styles.repoSearch}>
           <Input
@@ -73,6 +62,4 @@ const SearchPage = () => {
   );
 };
 
-const ReposSearchPage = observer(SearchPage);
-
-export { useReposListContext, ReposSearchPage };
+export default observer(ReposSearchPage);
