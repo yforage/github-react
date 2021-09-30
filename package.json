@@ -45,7 +45,9 @@
   },
   "devDependencies": {
     "@ant-design/icons": "^4.6.4",
+    "@types/classnames": "^2.3.1",
     "@types/qs": "^6.9.7",
+    "classnames": "^2.3.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.1",
     "prettier": "^2.3.2",
