@@ -1,4 +1,5 @@
 import apiEndpoints from "@config/api";
+import { QueryParams } from "@config/queryParams";
 import {
   normalizeRepoItem,
   RepoItemApi,
@@ -28,6 +29,8 @@ import { HTTPMethod } from "../RootStore/ApiStore/types";
 import { GetRepoListParams, IReposListStore } from "./types";
 
 type PrivateFields = "_list" | "_meta" | "_input";
+
+const PER_PAGE = 6;
 
 export default class ReposListStore implements IReposListStore, ILocalStore {
   private readonly _apiStore = rootStore.api;
@@ -67,15 +70,15 @@ export default class ReposListStore implements IReposListStore, ILocalStore {
   }
 
   getNewReposListPart() {
-    rootStore.query.setParam("search", this._input);
-    rootStore.query.setParam("page", "1");
+    rootStore.query.setParam(QueryParams.search, this._input);
+    rootStore.query.setParam(QueryParams.page, "1");
   }
 
   getReposListPart() {
-    const page = rootStore.query.getParam("page");
+    const page = rootStore.query.getParam(QueryParams.page);
     if (page) {
       const nextPage = (Number(page) + 1).toString();
-      rootStore.query.setParam("page", nextPage);
+      rootStore.query.setParam(QueryParams.page, nextPage);
     }
   }
 
@@ -125,14 +128,25 @@ export default class ReposListStore implements IReposListStore, ILocalStore {
   }
 
   private readonly _queryPageReaction: IReactionDisposer = reaction(
-    () => rootStore.query.getParam("page"),
-    (page) => {
-      const orgName = rootStore.query.getParam("search");
-      if (typeof orgName === "string") {
+    () => {
+      return {
+        search: rootStore.query.getParam(QueryParams.search),
+        page: rootStore.query.getParam(QueryParams.page),
+      };
+    },
+    ({ search, page }) => {
+      if (typeof search === "string") {
         if (this._list.order.length === 0) {
-          this.getReposList({ orgName, per_page: 6 * Number(page) });
+          this.getReposList({
+            orgName: search,
+            per_page: PER_PAGE * Number(page),
+          });
         } else {
-          this.getReposList({ orgName, page: Number(page), per_page: 6 });
+          this.getReposList({
+            orgName: search,
+            page: Number(page),
+            per_page: PER_PAGE,
+          });
         }
       }
     }
