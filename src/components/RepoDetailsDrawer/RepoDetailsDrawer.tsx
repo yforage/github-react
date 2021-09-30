@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 import ErrorMessage from "@components/ErrorMessage";
 import LoadSpin from "@components/LoadSpin";
@@ -24,6 +24,11 @@ const RepoDetailsDrawer: React.FC = () => {
 
   const history = useHistory();
 
+  const onClose = useCallback(() => {
+    repoItemStore.toggleDrawerState();
+    setTimeout(() => history.goBack(), 100);
+  }, [history, repoItemStore]);
+
   useEffect(() => {
     if (!(owner && name)) return;
     repoItemStore.getRepoInfo({
@@ -32,16 +37,12 @@ const RepoDetailsDrawer: React.FC = () => {
     });
     repoItemStore.toggleDrawerState();
   }, [owner, name, repoItemStore]);
+
   return (
     <Drawer
       title="More about"
       placement="right"
-      onClose={() => {
-        repoItemStore.toggleDrawerState();
-        setTimeout(() => {
-          history.goBack();
-        }, 100);
-      }}
+      onClose={onClose}
       visible={repoItemStore.drawerState}
       closable={true}
     >
