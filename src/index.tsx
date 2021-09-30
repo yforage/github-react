@@ -2,6 +2,7 @@ import React from "react";
 
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
+import "regenerator-runtime";
 
 import App from "./App";
 
@@ -16,3 +17,7 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById("root")
 );
+
+if (module.hot) {
+  module.hot.accept();
+}
