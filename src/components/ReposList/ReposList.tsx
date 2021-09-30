@@ -2,7 +2,7 @@ import React from "react";
 
 import RepoTile from "@components/RepoTile";
 import routes from "@config/routes";
-import { useReposListContext } from "@pages/ReposSearchPage";
+import { useReposListContext } from "@store/ReposListStore/ReposListContext";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 
