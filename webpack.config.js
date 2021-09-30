@@ -91,7 +91,7 @@ module.exports = {
   devServer: {
     host: "localhost",
     port: 3000,
-    static: "./public",
+    static: publicPath,
     hot: true,
     historyApiFallback: true,
   },
