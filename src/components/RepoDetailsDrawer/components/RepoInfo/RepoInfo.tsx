@@ -1,22 +1,22 @@
 import UpdatedIcon from "@components/UpdatedIcon";
 import UploadIcon from "@components/UploadIcon";
+import { RepoInfoModel } from "@store/models/gitHub";
 import prettyDate from "@utils/prettyDate";
-import { RepoInfoItem } from "src/store/GitHubStore/types";
 
 import styles from "./RepoInfo.module.scss";
 
 type RepoInfoProps = {
-  repo: RepoInfoItem | null;
+  repo: RepoInfoModel | null;
 };
 
 const RepoInfo: React.FC<RepoInfoProps> = ({ repo }) => {
   if (!repo) return null;
-  const createdDate = prettyDate(repo.created_at);
-  const updatedDate = prettyDate(repo.updated_at);
+  const createdDate = prettyDate(repo.createdAt);
+  const updatedDate = prettyDate(repo.updatedAt);
   return (
     <div>
       <p className={styles.repoInfo__name}>{repo.name}</p>
-      <span className={styles.repoInfo__fullName}>{repo.full_name}</span>
+      <span className={styles.repoInfo__fullName}>{repo.fullName}</span>
       <p className={styles.repoInfo__description}>{repo.description}</p>
       <p className={styles.repoInfo__lang}>{repo.language}</p>
       <div>

@@ -1,8 +1,7 @@
-const prettyDate = (date: string) => {
-  const dateObj = new Date(date);
-  const day = dateObj.getDate();
-  const month = dateObj.toLocaleString("default", { month: "short" });
-  const year = dateObj.getFullYear();
+const prettyDate = (date: Date) => {
+  const day = date.getDate();
+  const month = date.toLocaleString("default", { month: "short" });
+  const year = date.getFullYear();
   return `${day} ${month} ${year}`;
 };
 
