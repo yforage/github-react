@@ -74,7 +74,6 @@ export default class RepoBranchesStore
       try {
         this._meta = Meta.success;
         this._list = response.data.map(normalizeBranchesItem);
-        return;
       } catch (e) {
         log(e);
         this._meta = Meta.error;
