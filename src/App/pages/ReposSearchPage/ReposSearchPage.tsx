@@ -32,7 +32,7 @@ const ReposSearchPage = () => {
   return (
     <Provider value={memoReposListStore}>
       <div className={styles.repoList}>
-        <div className={styles.repoSearch}>
+        <form className={styles.repoSearch}>
           <Input
             value={reposListStore.input}
             placeholder="Введите название организации"
@@ -44,7 +44,7 @@ const ReposSearchPage = () => {
           >
             <SearchIcon />
           </Button>
-        </div>
+        </form>
         <InfiniteScroll
           dataLength={reposListStore.list.length}
           next={reposListStore.getReposListPart}
