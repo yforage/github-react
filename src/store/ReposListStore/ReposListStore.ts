@@ -1,20 +1,5 @@
-import apiEndpoints from "@config/api";
-import { QueryParams } from "@config/queryParams";
-import {
-  normalizeRepoItem,
-  RepoItemApi,
-  RepoItemModel,
-} from "@store/models/gitHub";
-import {
-  CollectionModel,
-  getInitialCollectionModel,
-  linearizeCollection,
-  normalizeCollection,
-} from "@store/models/shared/collection";
-import rootStore from "@store/RootStore";
-import log from "@utils/log";
-import { Meta } from "@utils/meta";
-import { ILocalStore } from "@utils/useLocalStore";
+import apiEndpoints from "config/api";
+import { QueryParams } from "config/queryParams";
 import {
   action,
   computed,
@@ -24,6 +9,21 @@ import {
   reaction,
   runInAction,
 } from "mobx";
+import {
+  normalizeRepoItem,
+  RepoItemApi,
+  RepoItemModel,
+} from "store/models/gitHub";
+import {
+  CollectionModel,
+  getInitialCollectionModel,
+  linearizeCollection,
+  normalizeCollection,
+} from "store/models/shared/collection";
+import rootStore from "store/RootStore";
+import log from "utils/log";
+import { Meta } from "utils/meta";
+import { ILocalStore } from "utils/useLocalStore";
 
 import { HTTPMethod } from "../RootStore/ApiStore/types";
 import { GetRepoListParams, IReposListStore } from "./types";
@@ -84,7 +84,7 @@ export default class ReposListStore implements IReposListStore, ILocalStore {
 
   async getReposList({ orgName, ...params }: GetRepoListParams): Promise<void> {
     this._meta = Meta.loading;
-    if (!params.page || params.page === 1) {
+    if (!params.page) {
       this._list = getInitialCollectionModel();
     }
 
@@ -110,9 +110,13 @@ export default class ReposListStore implements IReposListStore, ILocalStore {
         if (
           newData.some(({ id }: RepoItemModel) =>
             this._list.order.some((oldId) => oldId === id)
-          )
+          ) &&
+          params.page !== 1
         )
           return;
+        if (params.page === 1) {
+          this._list = getInitialCollectionModel();
+        }
         const list = [
           ...this._list.order.map((id) => this._list.entities[id]),
           ...newData,

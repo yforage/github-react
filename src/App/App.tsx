@@ -1,7 +1,9 @@
-import routes from "@config/routes";
-import { useQueryStoreInit } from "@store/RootStore/hooks/useQueryStoreInit";
+import React from "react";
+
 import { Layout } from "antd";
+import routes from "config/routes";
 import { Redirect, Route, Switch } from "react-router-dom";
+import { useQueryStoreInit } from "store/RootStore/hooks/useQueryStoreInit";
 
 import styles from "./App.module.scss";
 import ReposSearchPage from "./pages/ReposSearchPage";

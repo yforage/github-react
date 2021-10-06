@@ -1,20 +1,21 @@
+import React from "react";
 import { useMemo } from "react";
 
-import Button from "@components/Button";
-import ErrorMessage from "@components/ErrorMessage";
-import Input from "@components/Input";
-import LoadSpin from "@components/LoadSpin";
-import RepoDetailsDrawer from "@components/RepoDetailsDrawer";
-import ReposList from "@components/ReposList/ReposList";
-import SearchIcon from "@components/SearchIcon";
-import routes from "@config/routes";
-import ReposListStore from "@store/ReposListStore";
-import { Provider } from "@store/ReposListStore/ReposListContext";
-import { Meta } from "@utils/meta";
-import { useLocalStore } from "@utils/useLocalStore";
+import Button from "components/Button";
+import ErrorMessage from "components/ErrorMessage";
+import Input from "components/Input";
+import LoadSpin from "components/LoadSpin";
+import RepoDetailsDrawer from "components/RepoDetailsDrawer";
+import ReposList from "components/ReposList/ReposList";
+import SearchIcon from "components/SearchIcon";
+import routes from "config/routes";
 import { observer } from "mobx-react-lite";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Route } from "react-router-dom";
+import ReposListStore from "store/ReposListStore";
+import { Provider } from "store/ReposListStore/ReposListContext";
+import { Meta } from "utils/meta";
+import { useLocalStore } from "utils/useLocalStore";
 
 import styles from "./ReposSearchPage.module.scss";
 
@@ -31,7 +32,7 @@ const ReposSearchPage = () => {
   return (
     <Provider value={memoReposListStore}>
       <div className={styles.repoList}>
-        <div className={styles.repoSearch}>
+        <form className={styles.repoSearch}>
           <Input
             value={reposListStore.input}
             placeholder="Введите название организации"
@@ -43,7 +44,7 @@ const ReposSearchPage = () => {
           >
             <SearchIcon />
           </Button>
-        </div>
+        </form>
         <InfiniteScroll
           dataLength={reposListStore.list.length}
           next={reposListStore.getReposListPart}

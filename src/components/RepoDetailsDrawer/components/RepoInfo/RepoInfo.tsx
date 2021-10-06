@@ -1,7 +1,9 @@
-import UpdatedIcon from "@components/UpdatedIcon";
-import UploadIcon from "@components/UploadIcon";
-import { RepoInfoModel } from "@store/models/gitHub";
-import prettyDate from "@utils/prettyDate";
+import React from "react";
+
+import UpdatedIcon from "components/UpdatedIcon";
+import UploadIcon from "components/UploadIcon";
+import { RepoInfoModel } from "store/models/gitHub";
+import prettyDate from "utils/prettyDate";
 
 import styles from "./RepoInfo.module.scss";
 

@@ -1,13 +1,14 @@
+import React from "react";
 import { useCallback, useEffect } from "react";
 
-import ErrorMessage from "@components/ErrorMessage";
-import LoadSpin from "@components/LoadSpin";
-import RepoItemStore from "@store/RepoItemStore";
-import { Meta } from "@utils/meta";
-import { useLocalStore } from "@utils/useLocalStore";
 import { Drawer } from "antd";
+import ErrorMessage from "components/ErrorMessage";
+import LoadSpin from "components/LoadSpin";
 import { observer } from "mobx-react-lite";
 import { useParams, useHistory } from "react-router-dom";
+import RepoItemStore from "store/RepoItemStore";
+import { Meta } from "utils/meta";
+import { useLocalStore } from "utils/useLocalStore";
 
 import Branches from "./components/Branches";
 import RepoInfo from "./components/RepoInfo";
